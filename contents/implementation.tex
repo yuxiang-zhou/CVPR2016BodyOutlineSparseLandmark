@@ -113,47 +113,25 @@ The next section describes the methodology of constructing the correspondence ba
 %     \bm{u}_n(\bm{x})=\sum_{i=1}^R\bm{q_i}(n)\bm{v_i}(x)+\bm{\varepsilon_n}(\bm{x})
 % \end{equation}
 
-
 \begin{figure}[t!]
-    \centering
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/0}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/1}
-    \end{subfigure}
-   	\hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/2}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/3}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/4}
-    \end{subfigure}
-   	\hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/5}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/6}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/7}
-    \end{subfigure}
-   	\hfill
-    \begin{subfigure}[b]{0.1\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Flows/8}
-    \end{subfigure}
-    \caption{Exemplar deformation fields obtained using the proposed pipeline. Figure best viewed by zooming in.}
+        \centering
+        \begin{tabular}{ccc}
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/1}
+        &
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/2}
+        &
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/3}
+        \\
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/4}
+        &
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/5}
+        &
+        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/6}
+        \end{tabular}
+    \caption{Exemplar deformation fields for the left forearm, obtained using the proposed pipeline. Figure best viewed by zooming in.}
     \label{fig:deformationfield}
 \end{figure}
+
 
 
 
@@ -323,23 +301,22 @@ On the other hand, the texture model associated to the previous set of densified
 \end{equation}
 where $\bm{t}$ is the mean texture, and $\bm{T}$ and $\bm{c}$ are the texture bases and texture parameters respectively.
 
-Note that, both shape and texture models are directly related through the existent one-to-one correspondence between dense landmarks and pixels on the reference
-frame. Therefore, in clear contrast to classic AAMs formulations \cite{Cootes2001, Matthews2004}, in our dense formulation no motion model (piece-wise affine, thin-plates splines \cite{Bookstein1989}) is required to relate the previous shape and texture models . As noted by other authors \cite{Amberg2009, Tzimiropoulos2014}, this has the advantage that all efficient compositional gradient descent algorithms for fitting AAMs \cite{Papandreou2008, Matthews2004, Amberg2009, Tzimiropoulos2013, Alabort2014} become exact under our formulation.
+Note that, both shape and texture models are directly related through the established one-to-one correspondence between dense landmarks and pixels on the reference frame. Therefore, in clear contrast to classic AAMs formulations \cite{Cootes2001, Matthews2004}, in our dense formulation no motion model (piece-wise affine, thin-plates splines \cite{Bookstein1989}) is required to relate the previous shape and texture models . As noted in other works \cite{Amberg2009, Tzimiropoulos2014}, this has the advantage that all efficient compositional gradient descent algorithms for fitting AAMs \cite{Papandreou2008, Matthews2004, Amberg2009, Tzimiropoulos2013, Alabort2014} become exact under our formulation.
 
+This shape flow-based dense AAM formulation provides an exceptionally effective modeling and fitting for various objects, such as ears and faces, whose appearance has characteristic structures spread all over the object region (even if these structures cannot be consistently annotated). Therefore, what has been described so far completes our proposed approach in training and fitting deformable models of this type of objects.
 
-%\subsubsection{Drawing Annotation}
-%The purpose of the shape descriptor $\bm{d_i}(x)$ generates probabilities for arbitrary points. If we sample points that are exactly pixel-wise integers, and normalise classification value, we can visualise a SVS as an image for example in figure~\ref{fig:svs}. In other words, our architecture will also works for images with landmarks similar to SVS visualisations like drawing. Assuming the intensity of a gray-scale image simulate the decision function, named $\bm{I_i}(x), x \in \Omega, i \in \{1,...F\}$. But in this situation, pixels at image space are discontinued, so $x$ is constrained to be integer and within the view window of size $N\times M$. 
-
+However, there exist other challenging object types, such as forearms, legs and full body, that not only cannot be consistently annotated with landmarks, but also whose appearance is informative almost entirely on the object outline and not in the interior object region. This is due to the hugely varying texture of these objects (e.g.~colors and patterns of clothes) that is typically totally unrelated to their shape. For these cases, we propose to add some additional steps on our methodology. More specifically, we propose to focus on the dense correspondences solely on the object outline, utilize them to automatically estimate highly-accurate object skeleton landmarks and then adopt a parts-based deformable modeling. These steps will be described in the next section.
 
 
 \subsection{Outline-based Deformable Modeling}
 
-The 
+As already mentioned, for estimating body pose and modeling other object types with similar challenges, we propose to only consider the established correspondences on the object outline.
 
+Based on the proposed shape flow framework, we develop a methodology for robust automatic landmarking of the object outline. This allows a small initial training set that is manually annotated without consistent landmarks to be expanded to a much larger training set in an automatic way. In more detail, regarding the manually annotated images, for which SVS functions have been constructed, the outline correspondences are yielded by evaluating the estimated shape flow on the object outline of the reference image. To expand the training set to images without any annotations, we fit the trained dense AAM on these images and then only consider the deformed positions of the dense landmarks that correspond to the object outline on the mean shape.
 
+Having reliable object outline annotations on a large training set, we appropriately fuse their information to infer consistent landmarks on the object skeleton. This procedure equips deformable model training with consistent landmark annotations. This is particularly valuable, since it automates the training process and overcomes the limitations of inconsistent and inaccurate manual annotations on challenging objects such as forearms and legs.
 
-
-\subsection{Part-based AAMs}
+Based on these skeleton landmarks, we then train an parts-based deformable model. More specifically, ...
 
 
 
