@@ -1,0 +1,8 @@
+*.aux
+*.log
+*.out
+*.pdf
+~*
+*.odg
+*.odg#
+*eps-converted-to.pdf
