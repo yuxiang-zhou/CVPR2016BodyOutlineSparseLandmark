@@ -60,56 +60,76 @@
 
 \begin{figure}[t!]
     \centering
-    \begin{subfigure}[b]{0.115\textheight}
-            \includegraphics[height=2cm]{resources/MotivativeAnnotation/MPII}
+    \begin{subfigure}[b]{0.09125\textwidth}
+            \includegraphics[height=3.25cm]{resources/MotivativeAnnotation/MPII}
+            \caption{MPII}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.115\textheight}
-            \includegraphics[height=2cm]{resources/MotivativeAnnotation/FashionPose}
+    \begin{subfigure}[b]{0.1125\textwidth}
+            \includegraphics[height=3.25cm]{resources/MotivativeAnnotation/FashionPose}
+            \caption{Fashion}
     \end{subfigure}
   	\hfill
-    \begin{subfigure}[b]{0.115\textheight}
-            \includegraphics[height=2cm]{resources/MotivativeAnnotation/FLIC}
+    \begin{subfigure}[b]{0.125\textwidth}
+            \includegraphics[height=3.25cm]{resources/MotivativeAnnotation/FLIC}
+            \caption{FLIC}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.115\textheight}
-            \includegraphics[height=2cm]{resources/MotivativeAnnotation/BBCPose}
+    \begin{subfigure}[b]{0.125\textwidth}
+            \includegraphics[height=3.25cm]{resources/MotivativeAnnotation/BBCPose}
+            \caption{BBC Pose}
+    \end{subfigure}
+    \caption{Visualisation of inconsistent and inaccurate annotations of human pose among different datasets. Original annotation are shown in yellow dots while better annotations shown in blue dots.}
+    \label{fig:wrong_anno}
+\end{figure}
+\begin{figure}[t!]
+    \centering
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_0}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_1}
+    \end{subfigure}
+  	\hfill
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_2}
     \end{subfigure}
     \\
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_0_0}
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_0}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_0_1}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_0_2}
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_1}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_1_0}
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_2}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_1_1}
+    \begin{subfigure}[b]{0.065\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_2_0}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Intro/intro_1_2}
+    \begin{subfigure}[b]{0.065\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_2_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.065\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_2_2}
     \end{subfigure}
     
-    \caption{Demonstration of classical landmark annotation and curve annotation of faces, ears, bottles and human actions.}
+    \caption{Demonstration of classical landmark annotation and curve annotation of faces, ears and hands.}
     \label{fig:intro}
 \end{figure}
 
 
-Building and fitting statistical deformable models of objects is a well-studied and popular area in the intersection of computer vision and machine learning \cite{Cootes1995, Cootes2001, Matthews2004, Saragih2011, Belhumeur2011, Zhu2012, Xiong2013}. Recently, we have witnessed tremendous developments in building and fitting models of human faces and bodies using images captured in unconstrained recording environments, usually referred to as "in-the-wild" \cite{Belhumeur2011, Cao2012, Zhu2012, Xiong2013, Asthana2013, Tzimiropoulos2014, Asthana2014}. This is attributed to:
+Building and fitting statistical deformable models of objects is a well-studied and popular area in the intersection of computer vision and machine learning \cite{Cootes1995, Cootes2001, Matthews2004, Saragih2011, Belhumeur2011, Zhu2012, Xiong2013}. Recently, we have witnessed tremendous developments in building and fitting models of human faces and bodies using images captured in unconstrained recording environments, usually referred to as ``in-the-wild" \cite{Belhumeur2011, Cao2012, Zhu2012, Xiong2013, Asthana2013, Tzimiropoulos2014, Asthana2014}. This is attributed to:
 \begin{itemize}
 
 
-\item The abundance of complex visual data, spread mostly through the Internet via web services such as Youtube, Flickr and Google Images. The latter has led to the development of large databases of "in-the-wild" images of human faces and bodies \cite{Belhumeur2011, Le2012, Zhu2012, Burgos2013}.
+\item The abundance of complex visual data, spread mostly through the Internet via web services such as Youtube, Flickr and Google Images. The latter has led to the development of large databases of ``in-the-wild" images of human faces and bodies \cite{Belhumeur2011, Le2012, Zhu2012, Burgos2013}.
 
 \item The development of powerful visual features, able to describe objects and its parts in a robust manner (e.g., Scale Invariant Feature Transforms (SIFT) \cite{lowe1999object}, Histogram of Oriented Gradients (HoGs) \cite{Dalal2005} and recently Deep Convolutional Neural Networks \cite{sermanet2013overfeat}), as well as generative and discriminative methodologies for learning deformable models.
 
@@ -126,7 +146,7 @@ There are two drawbacks on building deformable models that directly rely on land
 
 \end{itemize}
 
-To illustrate how time consuming careful annotation of the human ear is we lay down our own experience. A trained annotator needs an average of 4 minutes per image for the manual annotation of 55 landmarks. This means that the annotation of 1000 images requires a total of about 67 hours. Furthermore,  training and fatigue largely influence the annotation accuracy. Hence, a second pass on the annotated data is, in many cases, necessary. Due to the fact that manual annotation is a costly and labour-intensive procedure, unsupervised learning of deformable models for the tasks of object alignment has recently attracted some attention \cite{frey2003learning, baker2004automatic, cootes2004groupwise, jojic2006escaping, Huang2006, kokkinos2007unsupervised, jiang2009learning, liu2009simultaneous, Zhang2012}. However, because the problem of fully unsupervised discovery of the deformations of arbitrary objects is difficult and ill-posed the limited number of methods that have been applied to the task cannot be directly applied to arbitrary collection of images collected "in-the-wild". On the other hand, the method of \cite{antonakos2014automatic}, which can deal with "in-the-wild" images, requires a set of consistently annotated sparse shapes to perform deformable face congealing.
+To illustrate how time consuming careful annotation of the human ear is we lay down our own experience. A trained annotator needs an average of 4 minutes per image for the manual annotation of 55 landmarks. This means that the annotation of 1000 images requires a total of about 67 hours. Furthermore,  training and fatigue largely influence the annotation accuracy. Hence, a second pass on the annotated data is, in many cases, necessary. Due to the fact that manual annotation is a costly and labour-intensive procedure, unsupervised learning of deformable models for the tasks of object alignment has recently attracted some attention \cite{frey2003learning, baker2004automatic, cootes2004groupwise, jojic2006escaping, Huang2006, kokkinos2007unsupervised, jiang2009learning, liu2009simultaneous, Zhang2012}. However, because the problem of fully unsupervised discovery of the deformations of arbitrary objects is difficult and ill-posed the limited number of methods that have been applied to the task cannot be directly applied to arbitrary collection of images collected ``in-the-wild". On the other hand, the method of \cite{antonakos2014automatic}, which can deal with ``in-the-wild" images, requires a set of consistently annotated sparse shapes to perform deformable face congealing.
 
 
 In this paper, we provide a solution for annotating an object with regards to its deformations that requires considerable less effort and in the same time can be used to define statistical deformations for objects without consistent set of landmarks. We apply the proposed method to construct deformable models of the outline of  human body parts (e.g., arms and legs). To the best of our knowledge this is the first SDM of the outline of human body parts. The proposed SDM can be also used to provide accurate and consistent annotations of several of the body joints (such as wrist etc.). 
