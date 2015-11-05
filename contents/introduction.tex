@@ -9,7 +9,7 @@
 % Annotated data of same objects can have various number of landmarks, \cite{?} shown faces have landmarks different in range 10+ to 70+. Building SDMs (e.g. Active Appearance Models), however, require training data are annotated consistently, for example, all faces have 68 landmarks, 6 landmarks for an eye and 9 for a nose \cite{?}. Such property of SDMs largely limited their application area like combining different dataset as one. We propose the pipeline with non-rigid alignment and support vector shape to blend landmarks into relatively consistent shape discriminator before building models.
 
 % %(2)
-% Due to the fact that manual annotation is a rather costly and labour-intensive procedure, unsupervised and semi supervised learning of models for the tasks of alignment, landmark localization, tracking and recognition has attracted considerable attention \cite{?}. As our proposed framework are available to handle landmarks with inconsistency, it leads to a more efficient, convenient, unbiased and simple annotation methods - curve annotation.
+% Due to the fact that manual annotation is a rather costly and labour-intensive procedure, unsupervised and semi supervised learning of models for the tasks of alignment, landmark localisation, tracking and recognition has attracted considerable attention \cite{?}. As our proposed framework are available to handle landmarks with inconsistency, it leads to a more efficient, convenient, unbiased and simple annotation methods - curve annotation.
 
 % %(3)
 % To build dense correspondence between independent shapes, we apply optical flow on shapes with low rank constrains, so we name it shape flow. Optical flow is originally applied to video sequences that several assumptions holds, illumination consistency and motion smoothness, while shapes having no motion smoothness completely as all training data are independent. Low rank constrain plays important role to simulate motion smoothness assumption.
@@ -84,30 +84,6 @@
 \end{figure}
 \begin{figure}[t!]
     \centering
-    \begin{subfigure}[b]{0.156\textwidth}
-            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_0}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.156\textwidth}
-            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_1}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.156\textwidth}
-            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_2}
-    \end{subfigure}
-    \\
-    \begin{subfigure}[b]{0.085\textwidth}
-            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_0}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.085\textwidth}
-            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_1}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.085\textwidth}
-            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_2}
-    \end{subfigure}
-    \hfill
     \begin{subfigure}[b]{0.065\textwidth}
             \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_2_0}
     \end{subfigure}
@@ -119,8 +95,31 @@
     \begin{subfigure}[b]{0.065\textwidth}
             \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_2_2}
     \end{subfigure}
-    
-    \caption{Demonstration of classical landmark annotation and curve annotation of faces, ears and hands.}
+    \hfill
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_0}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.085\textwidth}
+            \includegraphics[height=2.55cm]{resources/Fig_Intro/intro_1_2}
+    \end{subfigure}
+    \\
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_0}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_1}
+    \end{subfigure}
+  	\hfill
+    \begin{subfigure}[b]{0.156\textwidth}
+            \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_2}
+    \end{subfigure}
+    \caption{Comparison of the classical landmark annotation (red dots) with the curve annotation (blue lines) of hands, ears and faces.}
     \label{fig:intro}
 \end{figure}
 
@@ -140,36 +139,43 @@ Building and fitting statistical deformable models of objects is a well-studied 
 There are two drawbacks on building deformable models that directly rely on landmarks:
 \begin{itemize}
 
-\item Annotating with regards to consistent landmark annotation is an extremely time consuming, tedious and labour intensive work \cite{sagonas_iccv_300w_2013}, which is usually performed by a trained person . Furthermore, for many objects it requires a highly skilled person to identify and annotate a set of images with regards to a consistent set of landmarks. For example human ears have very complicated inner structures (e.g. helix, crus antihelicis, scapha, tragus, lobe etc.) which differs remarkably between ears. Moreover, certain ear parts, such as  Fossa Triangularies and Crus Helicis, do not appear in all ears and  their visibility is highly sensitive to pose and illumination variation. Another example is human body which is generally annotated with regards to a number of landmarks that intuitively correspond to a set of body joints. The task of annotation was undertaken by a crowd-sourcing Internet marketplace, so-called Amazon Mechanical Turk (AMT). Unfortunately, these annotations are, in many cases, not consistent\footnote{From personal experience the quality of annotations that have been produced from AMT in case of faces are extremely inaccurate and cannot by any means compared with the ones provided by the recent competition \cite{sagonas_iccv_300w_2013}} (please see Figure \ref{fig:intro}). As it was also pointed out recently, the inconsistencies in body joint annotations may also render the comparison between different human pose estimation methodologies irrelevant \cite{tompson2015efficient}. 
+\item Annotating with regards to consistent landmarks is an extremely time consuming, tedious and labour intensive work \cite{sagonas_iccv_300w_2013}, which is usually performed by a trained person. Furthermore, for many objects it requires a highly skilled person to identify and annotate a set of images with regards to a consistent set of landmarks. For example human ears have very complicated inner structures (e.g. helix, crus antihelicis, scapha, tragus, lobe etc.) which differ remarkably between ears. Moreover, certain ear parts, such as  fossa triangularies and crus helicis, do not appear in all ears and  their visibility is highly sensitive to pose and illumination variation. Another example is human body which is generally annotated with regards to a number of landmarks that intuitively correspond to a set of body joints. The task of annotation was undertaken by a crowd-sourcing Internet marketplace, so-called Amazon Mechanical Turk (AMT). Unfortunately, these annotations are, in many cases, not consistent\footnote{In the case of faces, the quality of annotations produced from AMT are extremely inaccurate and cannot by any means be compared with the ones provided by the recent competition \cite{sagonas_iccv_300w_2013}} (please see Figure \ref{fig:intro}). As it was also pointed out recently \cite{tompson2015efficient}, the inconsistencies in body joint annotations may also render the comparison between different human pose estimation methodologies irrelevant.
 
-\item The nature of many deformable objects does not allow them to be consistently annotated with regards to a consistent set of landmarks (e.g. bottles, fruits etc.). Also the boundary/outline of objects, such as faces, ears, body can be very difficultly annotated consistently. That is why many state-of-the-art methods opt to leave the boundary out for comparison \cite{Tzimiropoulos2014, Asthana2014}. The majority of the state-of-the-art methods for model-based landmark localisation \cite{Cao2012, Zhu2012, Xiong2013, Tzimiropoulos2014, Asthana2014} are not applicable for objects with inconsistent sets of landmarks.
+\item The nature of many deformable objects does not allow them to be annotated with regards to a consistent set of landmarks (e.g.~bottles, fruits etc.). Also the boundary/outline of objects, such as faces, ears, body can be very difficultly annotated consistently. That is why many state-of-the-art methods opt to leave the boundary out from the comparisons \cite{Tzimiropoulos2014, Asthana2014}. The majority of the state-of-the-art methods for model-based landmark localisation \cite{Cao2012, Zhu2012, Xiong2013, Tzimiropoulos2014, Asthana2014} are not applicable for objects with inconsistent sets of landmarks.
 
 \end{itemize}
 
 To illustrate how time consuming careful annotation of the human ear is we lay down our own experience. A trained annotator needs an average of 4 minutes per image for the manual annotation of 55 landmarks. This means that the annotation of 1000 images requires a total of about 67 hours. Furthermore,  training and fatigue largely influence the annotation accuracy. Hence, a second pass on the annotated data is, in many cases, necessary. Due to the fact that manual annotation is a costly and labour-intensive procedure, unsupervised learning of deformable models for the tasks of object alignment has recently attracted some attention \cite{frey2003learning, baker2004automatic, cootes2004groupwise, jojic2006escaping, Huang2006, kokkinos2007unsupervised, jiang2009learning, liu2009simultaneous, Zhang2012}. However, because the problem of fully unsupervised discovery of the deformations of arbitrary objects is difficult and ill-posed the limited number of methods that have been applied to the task cannot be directly applied to arbitrary collection of images collected ``in-the-wild". On the other hand, the method of \cite{antonakos2014automatic}, which can deal with ``in-the-wild" images, requires a set of consistently annotated sparse shapes to perform deformable face congealing.
 
 
-In this paper, we provide a solution for annotating an object with regards to its deformations that requires considerable less effort and in the same time can be used to define statistical deformations for objects without consistent set of landmarks. We apply the proposed method to construct deformable models of the outline of  human body parts (e.g., arms and legs). To the best of our knowledge this is the first SDM of the outline of human body parts. The proposed SDM can be also used to provide accurate and consistent annotations of several of the body joints (such as wrist etc.). 
+\section{Contributions}
 
-To this end, we argue and empirically demonstrate that it is better to annotate an object with regards to a set of continuous lines that describe the shape of the object. An example is provided in Figure \ref{fig:intro} where the shape of the human arm is annotated with continuous lines instead of a number of discrete landmarks. Similarly, the shape annotations for the ear, a bottle and human body is shown in Figure \ref{fig:intro} Annotating facial images by following this procedure takes 42, 38 and 43 secs per image for arm, faces, ears and bottles correspondingly. Furthermore, these shapes can be automatically produced by recent methods that perform discriminative segmentation of objects.
+In this paper, we provide a solution for annotating an object with regards to its deformations that requires considerable less effort and in the same time can be used to define statistical deformations for objects without consistent set of landmarks. We apply the proposed method to construct deformable models of the outline of  human body parts (e.g., arms and legs). To the best of our knowledge, this is the first SDM of the outline of human body parts. The proposed SDM can be also used to provide accurate and consistent annotations of several of the body joints (such as wrist etc.).
 
-Furthermore, we show that flow methods have mature enough so that it can be used to densely annotate the proposed shapes using simple, as well as more recent and robust shape representations methods \cite{Garg:2013hu,Nguyen2013}.  In particular, to build dense correspondence between independent shapes, we apply optical flow on shapes with low rank constrains, so we name it shape flow. Optical flow is originally applied to video sequences that several assumptions holds, illumination consistency and motion smoothness, while shapes having no motion smoothness completely as all training data are independent. Low rank constrain plays important role to simulate motion smoothness assumption.
+To this end, we argue and empirically demonstrate that it is better to annotate an object with regards to a set of continuous lines that describe the shape of the object. An example is provided in Figure \ref{fig:intro}, where classical landmark annotations are compared with the proposed curve annotations for hands, ears and faces. It is evident that curve annotations avoid the inherent ambiguity of placing sparse landmarks and offer a richer description of the object shape.
+%
+%where the shape of the human arm is annotated with continuous lines instead of a number of discrete landmarks. Similarly, the shape annotations for an ear and a face are shown in the same figure. Annotating images by following this procedure takes 42, 38 and 43 secs per image for arm, faces, ears correspondingly.
+Furthermore, these curves can be automatically produced by recent methods that perform discriminative segmentation of objects.
 
-We show that this way dense correspondences between images can be established and dense Active Appearance Models (AAMs) can be build on top of that. We show that the proposed methodology even though not tailored to landmark localization can be applied for landmark localization achieving very good performance. We demonstrate the performance of the proposed methodology for describing objects that do not have consistent landmarks. Furthermore, We show that by sampling the shape of the dense AAM a part-based AAM can be trained with its parts being in correspondence. We show that such a part-based AAM can used to produce state-of-the-art results in localisation of human body parts in challenging database, outperforming state-of-the-art methods [..]. Finally, we show that the proposed part-based AAM can be used to provide consistent annotations for certain body parts. 
+In addition, we capitalise on recent advances on multiframe optical flow estimation \cite{Garg:2013hu} and show that the relevant methodologies have matured enough to densely annotate the proposed shapes using simple, as well as more recent and robust shape representations methods \cite{Nguyen2013}.
+In particular, to build dense correspondences between different shapes of the same object type, we estimate the optical flow among all shapes jointly by imposing low-rank constrains, an approach that we call \emph{Shape Flow}. Multiframe optical flow is originally applied on video sequences, relying on the assumptions of color constancy and motion smoothness. However, these assumptions do not hold in our case, where we have a collection of shapes, therefore we introduce appropriate modifications of the multiframe optical flow formulation, based on consistency of the image-based shape representation and low rank priors.
+%
+%On the other hand,  while shapes having no motion smoothness completely as all training data are independent. Low rank constrain plays important role to simulate motion smoothness assumption.
+
+After establishing dense shape correspondences, we describe how dense Active Appearance Models (AAMs) can be built on top of that. We show that the proposed methodology can be applied for landmark localisation, even though not tailored for that task, achieving particularly good performance. We demonstrate the performance of the proposed methodology for describing objects that do not have consistent landmarks. Furthermore, We show that by sampling the shape of the dense AAM, a part-based AAM can be trained with its parts being in correspondence. We show that such a part-based AAM can used to produce state-of-the-art results in localisation of human body parts in challenging databases, outperforming state-of-the-art methods [..]. Finally, we show that the proposed part-based AAM can be used to provide consistent annotations for different body parts.
 
 
 %To the best of our knowledge this is the first methodology which can %create a dense statistical model for AAM which can operate in %"in-the-wild".
 
 %[..]. There are methods such as [..] and [..] but ...
 
-
-Summarizing, the contributions proposed in this paper are:
+Summarizing, the contributions proposed in this paper are the following:
 \begin{itemize}
 
-  \item We propose one of the first methodologies that construct SDMs from a set of training data with inconsistent annotation. We show that the proposed methodology, since it uses highly effective curve annotation, tremendously reduces manual work overload but maintains same performance level against state-of-the-art SDMs. We show that by sampling the dense shape of SDM very powerful part-based SDMs can   
-  
-  \item We propose the first SDMs of the outline of human parts, such as human arms, which can be applied for both highly accurate body part segmentation and pose estimation, as well as for providing accurate annotations for body joints. 
-  
+  \item We propose one of the first methodologies that construct SDMs from a set of training data with inconsistent annotations. We show that the proposed methodology, since it uses highly effective curve annotation, tremendously reduces manual work overload but maintains same performance level against state-of-the-art SDMs. We show that by sampling the dense shape of SDM very powerful part-based SDMs can
+
+  \item We propose the first SDMs of the outline of human parts, such as human arms, which can be applied for both highly accurate body part segmentation and pose estimation, as well as for providing accurate annotations for body joints.
+
 \end{itemize}
 
 
