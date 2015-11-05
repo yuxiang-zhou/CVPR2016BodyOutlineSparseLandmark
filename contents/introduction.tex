@@ -79,7 +79,9 @@
             \includegraphics[height=3.25cm]{resources/MotivativeAnnotation/BBCPose}
             \caption{BBC Pose}
     \end{subfigure}
-    \caption{Visualisation of inconsistent and inaccurate annotations of human pose among different datasets. Original annotation are shown in yellow dots while better annotations shown in blue dots.}
+    \caption{Visualisation of inconsistent and inaccurate annotations of human pose among different datasets. \emph{Blue} dots denote the original annotations. The arrows and \emph{green} dots show the correct location at which the points should be.
+    %Original annotations are shown in blue dots while better annotations shown in green dots.
+    }
     \label{fig:wrong_anno}
 \end{figure}
 \begin{figure}[t!]
@@ -119,21 +121,18 @@
     \begin{subfigure}[b]{0.156\textwidth}
             \includegraphics[height=2.8cm]{resources/Fig_Intro/intro_0_2}
     \end{subfigure}
-    \caption{Comparison of the classical landmark annotation (red dots) with the curve annotation (blue lines) of hands, ears and faces.}
+    \caption{Comparison of the standard landmark annotation (\emph{red} dots) with the curve annotation (\emph{blue} lines) on hands, ears and faces.}
     \label{fig:intro}
 \end{figure}
 
 
-Building and fitting statistical deformable models of objects is a well-studied and popular area in the intersection of computer vision and machine learning \cite{Cootes1995, Cootes2001, Matthews2004, Saragih2011, Belhumeur2011, Zhu2012, Xiong2013}. Recently, we have witnessed tremendous developments in building and fitting models of human faces and bodies using images captured in unconstrained recording environments, usually referred to as ``in-the-wild" \cite{Belhumeur2011, Cao2012, Zhu2012, Xiong2013, Asthana2013, Tzimiropoulos2014, Asthana2014}. This is attributed to:
+Building and fitting Statistical Deformable Models (SDMs) of various object classes is a well-studied and popular area in the intersection of computer vision and machine learning \cite{Cootes1995, Cootes2001, Matthews2004, Saragih2011, Belhumeur2011, Zhu2012, Xiong2013}. Recently, we have witnessed tremendous developments in building and fitting SDMs of human faces and bodies using images that are captured under unconstrained conditions, usually referred to as ``in-the-wild" \cite{Belhumeur2011, Cao2012, Zhu2012, Xiong2013, Asthana2013, Tzimiropoulos2014, Asthana2014}. This is attributed to:
 \begin{itemize}
-
-
-\item The abundance of complex visual data, spread mostly through the Internet via web services such as Youtube, Flickr and Google Images. The latter has led to the development of large databases of ``in-the-wild" images of human faces and bodies \cite{Belhumeur2011, Le2012, Zhu2012, Burgos2013}.
+\item The abundance of complex visual data, spread mostly through the internet via web services such as Youtube, Flickr and Google Images. The latter has led to the development of large ``in-the-wild" databases of human faces and bodies \cite{Belhumeur2011, Le2012, Zhu2012, Burgos2013}.
 
 \item The development of powerful visual features, able to describe objects and its parts in a robust manner (e.g., Scale Invariant Feature Transforms (SIFT) \cite{lowe1999object}, Histogram of Oriented Gradients (HoGs) \cite{Dalal2005} and recently Deep Convolutional Neural Networks \cite{sermanet2013overfeat}), as well as generative and discriminative methodologies for learning deformable models.
 
 \item Equally important is the task of manual annotation of images with regards to face and body parts and that has been undertaken by several research teams \cite{sagonas_iccv_300w_2013,charles2013domain,dantone2014body,andriluka14cvpr}.
-
 \end{itemize}
 
 There are two drawbacks on building deformable models that directly rely on landmarks:
