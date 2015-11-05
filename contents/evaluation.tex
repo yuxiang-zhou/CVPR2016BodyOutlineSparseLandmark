@@ -6,36 +6,36 @@ There are significant numbers of datasets exist for human pose estimation, where
 
 \begin{figure}[t!]
     \centering
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_0}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_1}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_2}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_3}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_4}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_5}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.05\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/image_6}
-    \end{subfigure}
-    \hfill
+    % \begin{subfigure}[b]{0.05\textwidth}
+    %         \includegraphics[width=\textwidth]{resources/Fig_Variance/image_0}
+    % \end{subfigure}
+    % \hfill
     \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[width=\textwidth]{resources/Fig_Variance/variances}
+            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_1}
+    \end{subfigure}
+  	\hfill
+    \begin{subfigure}[b]{0.08\textwidth}
+            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_2}
+    \end{subfigure}
+    \hfill
+    % \begin{subfigure}[b]{0.07\textwidth}
+    %         \includegraphics[height=4.8cm]{resources/Fig_Variance/image_3}
+    % \end{subfigure}
+    % \hfill
+    \begin{subfigure}[b]{0.08\textwidth}
+            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_4}
+    \end{subfigure}
+  	\hfill
+    % \begin{subfigure}[b]{0.05\textwidth}
+    %         \includegraphics[width=\textwidth]{resources/Fig_Variance/image_5}
+    % \end{subfigure}
+    % \hfill
+    \begin{subfigure}[b]{0.08\textwidth}
+            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_6}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.125\textwidth}
+            \includegraphics[height=5.5cm]{resources/Fig_Variance/variances}
     \end{subfigure}
     \caption{Exemplar human pose annotation for left arm among four annotators. Large variance shows the difficulties of have consistent landmarks. Figure best viewed by zooming in.}
     \label{fig:variance}
@@ -45,11 +45,11 @@ The training of dense Active Appearance Models (dAAMs) for upper body involves m
 
 In order to compare with current state-of-the-art human pose estimation on BBC Pose, we uses same error metric as BBC Poses does, which normalises testing images to have height of 256 pixels. Performance measure of experiments in this paper are plot with Cumulative Error Distribution (CED) curve, where graph shows accuracy against distance from ground truth in pixels on normalised images.
 
-\subsection{Benchmark Against State-of-the-art}
+\subsection{Arm Pose Estimation}
 \label{exp:benchmark}
 This experiment presented the accuracy of predicting joints positions from establishing dense correspondences with outline fitting. We build Patch AAM using 891 training hand images from a combination of datasets, where each image has 29 landmarks annotated alone its boundary. Dense Scale-Invariant Feature Transform (SIFT)\cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting is initialised based on current state-of-the-art human pose estimation algorithms on BBC Pose dataset. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method.
 
-Cumulative Error Distributions (CED) for this experiment are shown in Figure \ref{fig:hand_benchmark} while fitting statistics are reported in Table \ref{tab:hand_benchmark}. Results show that, for this experiment, the fitting accuracy achieved by our method outperformed current state-of-the-art algorithms. In particular, our method improves performance of current best method \cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation.
+Cumulative Error Distributions (CED) for this experiment are shown in Figure \ref{fig:hand_benchmark} while fitting statistics are reported in Table \ref{tab:hand_benchmark}. Results show that, for this experiment, the fitting accuracy achieved by our method outperformed current state-of-the-art algorithms. In particular, our method improves performance of current best method \cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation. Detailed statistical results please refer to supplementary material.
 
 
 \begin{figure}[b!]
@@ -66,48 +66,35 @@ Cumulative Error Distributions (CED) for this experiment are shown in Figure \re
 \end{figure}
 
 
-\begin{table}[b!]
-    \small
-    \centering
-    \begin{tabular}{|l|c|c|c||c|c|c|}
-        \hline
-                            & \multicolumn{3}{c||}{Wrist} & \multicolumn{3}{c|}{Elbow}\\
-        \hline
-        \emph{Method}       & \emph{mean} & \emph{std} & $\leq 6pt$ & \emph{mean} & \emph{std} & $\leq 6pt$\\
-        \hline\hline
-        Buehler             & 12.08    & 19.94        & 44.5\%       & 12.94    & 14.65        & 34.4\%\\
-        Charles14           & 11.81    & 20.89        & 54.2\%       &  8.30    & 11.00        & \textbf{55.2\%}\\
-        Charles13           & 13.78    & 22.39        & 43.3\%       & 13.17    & 18.74        & 46.3\%\\
-        Pfister14           & 14.69    & 17.89        & 29.7\%       & 14.60    & 10.59        & 14.0\%\\
-        Ramanan             & 15.59    & 19.04        & 22.6\%       & 15.53    & 10.82        & 15.8\%\\
-        Pfister15           & 7.62     & 11.04        & 54.1\%       &  8.84    & 11.44        & 54.9\%\\
-        \hline\hline
-        Ours                & \textbf{6.71}& \textbf{10.90}   & \textbf{63.1\%}       & \textbf{8.20}     &  \textbf{10.54}        & 52.1\%\\
-        \hline
-    \end{tabular}
-    \caption{Fitting statistics on BBC Pose database for experiment \ref{exp:benchmark}}
-    \label{tab:hand_benchmark}
-\end{table}
+% \begin{table}[b!]
+%     \small
+%     \centering
+%     \begin{tabular}{|l|c|c|c||c|c|c|}
+%         \hline
+%                             & \multicolumn{3}{c||}{Wrist} & \multicolumn{3}{c|}{Elbow}\\
+%         \hline
+%         \emph{Method}       & \emph{mean} & \emph{std} & $\leq 6pt$ & \emph{mean} & \emph{std} & $\leq 6pt$\\
+%         \hline\hline
+%         Buehler             & 12.08    & 19.94        & 44.5\%       & 12.94    & 14.65        & 34.4\%\\
+%         Charles14           & 11.81    & 20.89        & 54.2\%       &  8.30    & 11.00        & \textbf{55.2\%}\\
+%         Charles13           & 13.78    & 22.39        & 43.3\%       & 13.17    & 18.74        & 46.3\%\\
+%         Pfister14           & 14.69    & 17.89        & 29.7\%       & 14.60    & 10.59        & 14.0\%\\
+%         Ramanan             & 15.59    & 19.04        & 22.6\%       & 15.53    & 10.82        & 15.8\%\\
+%         Pfister15           & 7.62     & 11.04        & 54.1\%       &  8.84    & 11.44        & 54.9\%\\
+%         \hline\hline
+%         Ours                & \textbf{6.71}& \textbf{10.90}   & \textbf{63.1\%}       & \textbf{8.20}     &  \textbf{10.54}        & 52.1\%\\
+%         \hline
+%     \end{tabular}
+%     \caption{Fitting statistics on BBC Pose database for experiment \ref{exp:benchmark}}
+%     \label{tab:hand_benchmark}
+% \end{table}
 
 
-\subsection{Internal Evaluation}
+\subsection{Non-rigid Object Alignment In-the-wild}
 \label{exp:internal}
 
-\begin{figure}[t!]
-    \centering
-    \begin{subfigure}[b]{0.23\textwidth}
-            \includegraphics[width=\textwidth]{resources/HandBenchmark/elbow_joints}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.23\textwidth}
-            \includegraphics[width=\textwidth]{resources/HandBenchmark/wrist_joints}
-    \end{subfigure}
-    \caption{Hand Benchmark.}
-    \label{fig:internal_benchmark}
-\end{figure}
 
-
-\subsection{Qualitative Results}
+\subsection{Annotation Correct}
 \label{exp:qualitative}
 
 
