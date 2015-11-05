@@ -11,27 +11,34 @@
 
 % Despite the fact that that vast majority of existing methods are based on a sparse shape representation, dense shape representation reveals more nuanced structure in terms of [todo: explain].
 
-We propose a novel framework for building deformable models that does not require any consistent set of annotated landmarks and is based on a dense shape representation. Our method only requires a set of point or curve line annotations that does not need to be consistent over different training samples. It combines the techniques of Non-rigid Iterative Closest Point (NICP) \cite{Amber2007}, multi-channel Support Vector Shape (SVS) \cite{Nguyen2013} representation and multi-image subspace flow \cite{Garg:2013hu} in an effective framework that has significant descriptive power.
 
-The proposed pipeline is depicted in Figure~\ref{fig:archi}. It takes as input a set of training images of a particular object class, along with inconsistent point and/or curve line annotations.
-As a first step, all the shape annotations are consistently represented using multichannel SVS.
-The next step is the application of Iterative Closest Point (ICP) algorithm \cite{Besl1992} to achieve an initial simple alignment of the SVS images.
-The multichannel similarity-aligned SVS images are then fed into a multi-image subspace flow estimation that establishes dense correspondences between all the shapes in the training set. In order for the flow estimation to be accurate and exploit the correlation among all training shapes, it utilises a correspondence basis built from sparse correspondences obtained by applying Nonrigid ICP on the annotated data. Finally, the dense correspondences yield by optical flow serve as automatically generated dense landmark annotations and are used to define a novel dense version of Active Appearance Models. The upcoming sections discuss each of the previous stages in further detail.
+This section presents the proposed method for establishing dense correspondences among training shapes 
+by only using curve annotations. Our pipeline is depicted in Figure~\ref{fig:archi}. 
+%
+%We propose a novel framework for building deformable models that does not require any consistent set of annotated landmarks and is based on a dense shape representation. Our method only requires a set of point or curve line annotations that does not need to be consistent over different training samples. 
+%
+%It combines the techniques of Non-rigid Iterative Closest Point (NICP) \cite{Amber2007}, multi-channel Support Vector Shape (SVS) \cite{Nguyen2013} representation and multi-image subspace flow \cite{Garg:2013hu} in an effective framework that has significant descriptive power.
+%
+It takes as input a set of training images of a particular object class, along with curve annotations.
+As a first step, all the curve annotations are consistently represented using a multichannel extension of the Support Vector Shape (SVS) representation \cite{Nguyen2013}. The next step is the application of Iterative Closest Point (ICP) algorithm \cite{Besl1992} to achieve an initial simple alignment of the SVS images.
+The multichannel similarity-aligned SVS images are then fed into a multi-image subspace flow estimation that establishes dense correspondences between all the shapes in the training set. In order for the flow estimation to be accurate and exploit the correlation among all training shapes, it utilises a correspondence basis built from sparse correspondences obtained by applying Nonrigid ICP on the annotated data. Finally, the dense correspondences yield by optical flow serve as automatically generated dense landmark annotations and are used to define a novel dense version of Active Appearance Models. The upcoming sections discuss each of the aforementioned steps in further detail.
 
 %two major modules. The first module handles inconsistent annotation set by converting to landmark independent shape discriminator. While the other module produces shape flow on object discriminators to generate dense flow transformations in shape space following by robust PCA\cite{?} to generate deformable model. In this section, we present the entire architectures, design decision and algorithms.
-\subsection{Shape Representation Without Consistent Annotations}
+\subsection{Shape Representation Based on Support Vector Shapes}
 \label{sec:svs}
 %Ordinarily, construction of deformable model requires training data set having consistent number of landmarks. But unavoidable changes has to be made before applying same algorithm on diverse annotated data set.
 
 In order to fully capture the variability among most deformable object shapes annotations, we use a representation based on Support Vector Shapes (SVS) \cite{Nguyen2013}. A SVS is a decision function trained on shapes using Support Vector Machines (SVMs) with Radial Basis Function (RBF) kernels. In this way, a shape is represented as a classifier function, which has several advantages: (a) the representation is completely general, \eg it can be applied to sparse landmark points, curves lines or a combination of the two and (b) it fuses inconsistent landmarks into consistent and directly comparable decision functions. Furthermore, this representations is also robust against noise, missing data and outliers \cite{Nguyen2013}.
 
-In practice, we assume that all the training images correspond to the same object category and contain a set of inconsistent points and curve line annotations. All annotations are densely sampled to yield a set of annotated landmarks per image, with this set being different for every training image. Initially, negative points get randomly sampled around sparse landmarks while annotated landmarks are positive points. Since the number of positive points is far smaller that the number of negative ones, landmarks are assigned considerably larger weights so that $N_p \times W_p=N_n \times W_n$ where $N_p, N_n$ are the number of positive/negative samples and $W_p, W_n$ are their corresponding weights.
+%In practice, we assume that all the training images correspond to the same object category and contain a set of inconsistent points and curve line annotations. 
+The curve annotations for all training images are densely sampled to yield a set of landmarks per image, with this set being different for every training image. To train the SVM, these landmarks are assigned as belonging to the class with label `+1', whereas randomly sampled points around them are assigned as belonging to the class with label `-1'. Since the class `+1' has far less points than the class `-1', landmarks are assigned considerably larger weights so that $N_p \times W_p=N_n \times W_n$ where $N_p, N_n$ are number of points of the class `+1' and `-1' respectively and $W_p, W_n$ are their corresponding weights.
 
 SVMs with RBF kernel function map any number of data points onto an infinite-dimensional space where positive and negative points are linearly separable, hence the classification boundary on 2D space represents the actual shape of the object. Note that the decision function for SVMs can be mathematically expressed as:
 \begin{equation} \label{eq:decisionfunc}
     d(\bm{x})=\sum_i\alpha_i \, k(\bm{x}_i^*,\bm{x})
 \end{equation}
-where $\bm{x}_i^*$ are the so-called support vectors and \mbox{$k(\bm{x}, \bm{y}) = \exp\left(-\frac{\|\bm{x} -\bm{y}\|^2}{2 \sigma^2}\right)$} is the RBF kernel .
+where $\bm{x}_i^*$ are the so-called support vectors and \mbox{$k(\bm{x}, \bm{y}) = \exp\left(-\frac{\|\bm{x} -\bm{y}\|^2}{2 \sigma^2}\right)$} is the RBF kernel. The decision function $d(\bm{x})$ can be defined for every pixel $\bm{x}$ of the corresponding object image, therefore we interpret is as an image and we call it \emph{SVS image}.
+
 
 Figure \ref{fig:build_svs} shows an exemplar shape representation using SVS. As it can be observed, the final result does not drastically depend on the original number of annotated landmarks.
 
@@ -59,22 +66,23 @@ Figure \ref{fig:build_svs} shows an exemplar shape representation using SVS. As 
     \label{fig:build_svs}
 \end{figure}
 
+We extend the SVS representation to support also the case where multiple curves with different labels are annotated. This is useful when annotating different structures of the same object, such as the curve of the left eyebrow and the curve of the right eyebrow on faces. Even though not absolutely necessary in our framework, it can provide further guidance on the estimation of dense shape correspondences. In more detail, we create a multi-channel SVS image $\bm{d}(\bm{x})=[d_1(\bm{x}) \cdots d_i(\bm{x}) \cdots d_{N_c}(\bm{x})]$, where $d_i(\bm{x})$ is the SVS image that corresponds to the curve annotation of the $i$-th structure and $N_c$ is the total number of structures (a single curve annotation is the special case where $N_c=1$). Note that we do not necessarily require that all structures are annotated in all the object images: in the case that a structure is not annotated, the corresponding channel of the SVS image simply takes a zero value for all pixels. The shape flow estimation can deal with such missing information thanks to the spatial regularisation and the low-rank constraint that it adopts, c.f.~Section \ref{sec:shapeflow}.
 
 After constructing the SVS representation for all images, the next step is to apply a simple similarity alignment over them. This is done because the goal here is to build a model capable of effectively representing non-rigid local shape deformations rather than global rotation, translation and scaling. The alignment is performed by using the Iterative Closest Point (ICP) algorithm \cite{Besl1992} on the annotated landmarks point cloud of the training images.
 
 
-\subsection{Shape Correspondence Basis}
+\subsection{Correspondence Basis for Shape Flow Estimation}
 
-We consider the problem of dense correspondences across SVS images as a joint estimation of optical flow fields between a reference SVS image and every SVS image of the training dataset. The estimation of such a ``shape flow'' defines for every training SVS image a warping function that registers it with the reference SVS image. To establish the dense correspondences robustly, we are inspired by the idea of subspace constraints in the estimation of multiframe optical flow \cite{Garg:2013hu}.
+We define the problem of shape flow as the joint estimation of optical flow fields between a reference SVS image and every SVS image of the training dataset, which yields dense correspondences across SVS images. This also defines for every training SVS image a warping function that registers it with the reference SVS image. To establish the dense correspondences robustly, we are inspired by the idea of subspace constraints in the estimation of multiframe optical flow \cite{Garg:2013hu}.
 
 Instead of the \emph{motion} basis used in multiframe optical flow formulation of \cite{Garg:2013hu}, we build a \emph{correspondence} basis that introduces constraints on how points of different shapes are matched to each other. Every pixel of the reference SVS image is matched to its corresponding position at every training SVS image and in this way defines a \emph{correspondence vector}. This vector consists of the 2D locations of the specific point in all SVS images. To form this vector, the training images are arranged in an arbitrary order. Similarly to the order of training samples when Principal Component Analysis (PCA) is applied, this order does not affect the result of our method and any re-ordering would produce exactly the same results.
 
 
-Formally, let $F$ be the number of training SVS images and $n=1,\ldots,F$ be the training image index. Also, let $\boldsymbol{q}_1(n),\ldots,\boldsymbol{q}_R(n):
-\{1,\ldots,F\} \rightarrow \R^2$ be the $R$ orthonormal elements of the correspondence basis, where $\boldsymbol{q}_i(n)$ is the displacement vector that matches the points of the reference SVS image with the points of the $n$-th training SVS image, according to the variation described from the $i$-th correspondence basis element. Note that the basis elements $\boldsymbol{q}_i(n)$ are independent from the point location. Note also that the number of basis elements is typically much smaller than the full dimensionality ($2 F$) of correspondence vectors, therefore this basis plays a role of dimensionality reduction.
+Formally, let $N_t$ be the number of training SVS images and $n=1,\ldots,N_t$ be the training image index. Also, let $\boldsymbol{q}_1(n),\ldots,\boldsymbol{q}_R(n):
+\{1,\ldots,N_t\} \rightarrow \R^2$ be the $R$ orthonormal elements of the correspondence basis, where $\boldsymbol{q}_i(n)$ is the displacement vector that matches the points of the reference SVS image with the points of the $n$-th training SVS image, according to the variation described from the $i$-th correspondence basis element. Note that the basis elements $\boldsymbol{q}_i(n)$ are independent from the point location. Note also that the number of basis elements is typically much smaller than the full dimensionality ($2 N_t$) of correspondence vectors, therefore this basis plays a role of dimensionality reduction.
 
 
-In addition, let $\Omega \subset \R^2$ be the image domain of the SVS images and $\bx$ denote the point location. We denote the shape flow result as $\bm{u}_n(\bx):\Omega\times \{1,\ldots,F\}
+In addition, let $\Omega \subset \R^2$ be the image domain of the SVS images and $\bx$ denote the point location. We denote the shape flow result as $\bm{u}_n(\bx):\Omega\times \{1,\ldots,N_t\}
 \rightarrow \R^2$,  where $\bm{u}_n(\bx)$ is the displacement vector that matches the point $\bx$ of the reference SVS image with its corresponding location at the $n$-th training SVS image.
 
 Using the constructed correspondence basis, the shape flow can be approximated as:
@@ -139,11 +147,13 @@ The next section describes the methodology of constructing the correspondence ba
 % ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-\subsection{Shape Flow}
+\subsection{Shape Flow Estimation}
 \label{sec:shapeflow}
 
 
-Using the SVS functions built from training data, one of the main steps of our pipeline is to estimate dense correspondences between all these functions. We propose to perform this estimation simultaneously for all training data, by using the correspondence basis. This procedure, which we call \emph{shape flow}, builds upon robust methods for multiframe optical flow estimation \cite{Garg:2013hu}. However, optical flow estimation typically works based on the assumptions of brightness or colour constancy and motion smoothness, whereas in our setting the input training data correspond to shapes. For this reason, we propose to modify the formulation of \cite{Garg:2013hu} by using the correspondence basis that we introduced in conjunction with the SVS representation of shapes.
+%Using the SVS functions built from training data, one of the main steps of our pipeline is to estimate dense correspondences between all these functions. We propose to perform this estimation simultaneously for all training data, by using the correspondence basis. 
+
+As already mentioned, our shape flow estimation builds upon robust methods for multiframe optical flow estimation \cite{Garg:2013hu}. However, optical flow estimation typically works based on the assumptions of brightness or colour constancy and motion smoothness, whereas in our setting the input training data correspond to shapes. For this reason, we propose to modify the formulation of \cite{Garg:2013hu} by using the correspondence basis that we introduced in conjunction with the SVS representation of shapes.
 
 
 %
@@ -155,7 +165,9 @@ Using the SVS functions built from training data, one of the main steps of our p
 
 
 
-To effectively build the correspondence basis, we first transform the original annotations to sparse point clouds. Then, we apply Non-rigid Iterative Closest Point (NICP)\cite{Amber2007} between the point cloud of annotations in the reference shape and the one of every shape of the training set. NICP iteratively deforms the cloud of points of every shape to match the points of the reference shape. This yields an initial estimation of the correspondence vectors on the sparse locations of annotated landmarks on the reference shape. To make this correspondence vectors estimation dense (i.e.~for every pixel of the reference SVS image), we apply Thin-Plate Splines (TPS)\cite{Bookstein1989} interpolation. Finally, the correspondence basis is found by applying PCA on the result of TPS interpolation and keeping only the first $R$ principal components.
+To effectively build the correspondence basis, we first transform the original annotations to sparse point clouds. Then, we apply Non-rigid Iterative Closest Point (NICP)\cite{Amber2007} between the point cloud of annotations in the reference shape and the one of every shape of the training set. NICP iteratively deforms the cloud of points of every shape to match the points of the reference shape. This yields an initial estimation of the correspondence vectors on the sparse locations of annotated landmarks on the reference shape. Finally, the correspondence basis is found by applying PCA on these  correspondence vectors and keeping only the first $R$ principal components.
+
+%To make this correspondence vectors estimation dense (i.e.~for every pixel of the reference SVS image), we apply Thin-Plate Splines (TPS)\cite{Bookstein1989} interpolation. Finally, the correspondence basis is found by applying PCA on the result of TPS interpolation and keeping only the first $R$ principal components.
 
 
 
@@ -254,11 +266,12 @@ To effectively build the correspondence basis, we first transform the original a
 \subsubsection{Variational Shape Flow Estimation}%{Multi-image Subspace Flow}
 \label{varshapeflow}
 
-Following \cite{Garg:2013hu}, we propose to estimate the shape flow over all training SVS images $\bm{d}_n(\bx)$ by minimizing the following energy:
+
+Let $\bm{d}(\bx;n)$, $\bm{d}(\bx;0):\Omega\rightarrow \R^{N_c}$ be the $n$-th training SVS image and the reference SVS image respectively. Following \cite{Garg:2013hu}, we propose to estimate the shape flow over all training images by minimizing the following energy:
 \begin{align}
 E_{sf} & =\alpha
-\int_{\Omega}\sum_{n=1}^F \|\bm{d}_n(\bx+\bm{u}_n(x))-\bm{d}_0(x)\| \ud \bx \label{eq:costfunc}\\
-    &+ \beta \int_{\Omega}\sum_{n=1}^F\|\bm{u}_n(\bx)-\sum_{i=1}^R\bm{q}_i(n)\bm{v}_i(\bx)\|^2 \ud \bx \label{eq:lowrank}\\
+\int_{\Omega}\sum_{n=1}^{N_t} \|\bm{d}(\bx+\bm{u}_n(x);n)-\bm{d}(x;0)\| \ud \bx \label{eq:costfunc}\\
+    &+ \beta \int_{\Omega}\sum_{n=1}^{N_t}\|\bm{u}_n(\bx)-\sum_{i=1}^R\bm{q}_i(n)\bm{v}_i(\bx)\|^2 \ud \bx \label{eq:lowrank}\\
     &+
 \int_\Omega  \sum_{i=1}^R \,\, \left \|    \nabla \bm{v}_i(\bx)    \right \|  \,\ud \bx \label{eq:TVterm}
 \end{align}
