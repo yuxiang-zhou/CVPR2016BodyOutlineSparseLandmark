@@ -58,30 +58,24 @@
 
 % \clearpage
 
+
+
+\setlength{\tabcolsep}{1pt}        
 \begin{figure}[t!]
-    \centering
-    \begin{subfigure}[b]{0.105\textwidth}
-            \includegraphics[height=5.5cm]{resources/MotivativeAnnotation/MPII}
-            \caption{MPII}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.115\textwidth}
-            \includegraphics[height=5.5cm]{resources/MotivativeAnnotation/FashionPose}
-            \caption{Fashion}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.22\textwidth}
-            \includegraphics[height=5.5cm]{resources/MotivativeAnnotation/FLIC}
-            \caption{FLIC}
-    \end{subfigure}
-    % \hfill
-    % \begin{subfigure}[b]{0.145\textwidth}
-    %         \includegraphics[height=4cm]{resources/MotivativeAnnotation/BBCPose}
-    %         \caption{BBC Pose}
-    % \end{subfigure}
-    \caption{Examples of inconsistent and inaccurate annotations of human pose among different datasets. \emph{Blue} dots denote the original annotations. The arrows and \emph{green} dots show the correct location at which the points should be.
-    %Original annotations are shown in blue dots while better annotations shown in green dots.
-    }
+        \begin{tabular}{ccc}
+        \includegraphics[height=.65\columnwidth]{resources/MotivativeAnnotation/MPII}
+        &
+        \includegraphics[height=.65\columnwidth]{resources/MotivativeAnnotation/FashionPose}
+        &
+        \includegraphics[trim=50 0 50 0,clip,height=.65\columnwidth]{resources/MotivativeAnnotation/FLIC}
+        \\
+        (a) MPII
+        &
+        (b) Fashion
+        &
+        (c) FLIC
+        \end{tabular}
+    \caption{Examples of inconsistent annotations of human pose among different datasets. \emph{Blue} markers denote the original annotations. The arrows and \emph{green} markers show the correct location at which the points should be annotated.}
     \label{fig:wrong_anno}
 \end{figure}
 \begin{figure}[t!]
@@ -173,9 +167,15 @@ In addition, we demonstrate how dense Active Appearance Models (AAMs) can be bui
 In summary, the contributions of this paper are the following:
 \begin{itemize}
 
-  \item We propose one of the first methodologies that build accurate SDMs from a set of training data with inconsistent annotations. We show that the proposed methodology, thanks to the highly effective curve annotations, tremendously reduces manual workload but maintains same performance level against state-of-the-art SDMs. We show that by sampling the dense shape of SDM very powerful part-based SDMs can
-
-  \item We propose the first SDMs of the outline of human parts, such as human arms, which can be applied for both highly accurate body part segmentation and pose estimation, as well as for providing accurate annotations for body joints.
+  \item We propose one of the first, to the best of our knowledge, methodologies that constructs accurate SDMs from a set of training data with inconsistent annotations. We show that the proposed methodology tremendously reduces the manual workload thanks to the highly effective curve annotations.
+  
+  \item We illustrate the ability of the proposed method to generate consistent sparse landmark annotations for object classes which, by nature, make it impossible to be manually annotated in a consistent way.
+  
+  \item We show that it is more advantageous to model the human body parts (e.g. arms) with a set of sparse landmarks on their outline, rather than on their skeleton joints. This is because the outline landmarks, which can be acquired by our method in a straightforward way, exhibit better consistency compared to the inevitable inconsistency of the joint landmarks.
+  
+  \item We report state-of-the-art quantitative and qualitative results on the task of human body parts localisation by employing a part-based AAM trained on the outline landmarks that are sampled by the dense AAM. Our proposed model outperforms all current state-of-the-art techniques that are trained on skeleton joints
+  
+  \item We show that the employed part-based AAM corrects the annotations that are currently provided for most major human body pose databases. Upon acceptance of the paper, we will make the corrected annotations publicly available.
 
 \end{itemize}
 
