@@ -13,22 +13,32 @@
 
 
 This section presents the proposed method for establishing dense correspondences among training shapes 
-by only using curve annotations. Our pipeline is depicted in Figure~\ref{fig:archi}. 
+by only using curve annotations.
 %
 %We propose a novel framework for building deformable models that does not require any consistent set of annotated landmarks and is based on a dense shape representation. Our method only requires a set of point or curve line annotations that does not need to be consistent over different training samples. 
 %
 %It combines the techniques of Non-rigid Iterative Closest Point (NICP) \cite{Amber2007}, multi-channel Support Vector Shape (SVS) \cite{Nguyen2013} representation and multi-image subspace flow \cite{Garg:2013hu} in an effective framework that has significant descriptive power.
 %
-It takes as input a set of training images of a particular object class, along with curve annotations.
-As a first step, all the curve annotations are consistently represented using a multichannel extension of the Support Vector Shape (SVS) representation \cite{Nguyen2013}. The next step is the application of Iterative Closest Point (ICP) algorithm \cite{Besl1992} to achieve an initial simple alignment of the SVS images.
-The multichannel similarity-aligned SVS images are then fed into a multi-image subspace flow estimation that establishes dense correspondences between all the shapes in the training set. In order for the flow estimation to be accurate and exploit the correlation among all training shapes, it utilises a correspondence basis built from sparse correspondences obtained by applying Nonrigid ICP on the annotated data. Finally, the dense correspondences yield by optical flow serve as automatically generated dense landmark annotations and are used to define a novel dense version of Active Appearance Models. The upcoming sections discuss each of the aforementioned steps in further detail.
+It takes as input a set of training images of a particular object class, along with the corresponding curve annotations. The steps of our pipeline, which are also depicted in Figure~\ref{fig:archi}, are the following:
+
+\noindent\textbf{Step 1:} Represent the curve annotations in a consistent way using a multichannel extension of the Support Vector Shape (SVS) representation \cite{Nguyen2013}. Apply the Iterative Closest Point (ICP) algorithm \cite{Besl1992} to achieve an initial alignment of the SVS images.
+
+\noindent\textbf{Step 2:} Construct a correspondence basis for the training SVS images. This is acquired by applying Non-rigid ICP on the densely sampled annotated curves, followed by Principal Component Analysis (PCA).
+
+\noindent\textbf{Step 3:} Establish dense correspondences between all the shapes in the training set by feeding the multichannel similarity-aligned SVS images into a multi-image subspace flow estimation.
+
+\noindent\textbf{Step 4:} Utilise the dense correspondences acquired by the optical flow in order to automatically generate dense and sparse (on the outline) landmark annotations and build a dense \cite{ramnath2008increasing, Amberg2009, anderson2014using} and part-based \cite{Tzimiropoulos2014} AAM, respectively.
+
+The upcoming sections discuss each of the aforementioned steps in further detail.
 
 %two major modules. The first module handles inconsistent annotation set by converting to landmark independent shape discriminator. While the other module produces shape flow on object discriminators to generate dense flow transformations in shape space following by robust PCA\cite{?} to generate deformable model. In this section, we present the entire architectures, design decision and algorithms.
-\subsection{Shape Representation Based on Support Vector Shapes}
-\label{sec:svs}
+\newcounter{steps}
+{\refstepcounter{steps}\label{sec:step1}\subsection*{Step 1: Shape Representation Based on Support Vector Shapes}}
+% \subsection{Shape Representation Based on Support Vector Shapes}
+% \label{sec:step1}
 %Ordinarily, construction of deformable model requires training data set having consistent number of landmarks. But unavoidable changes has to be made before applying same algorithm on diverse annotated data set.
 
-In order to fully capture the variability among most deformable object shapes annotations, we use a representation based on Support Vector Shapes (SVS) \cite{Nguyen2013}. A SVS is a decision function trained on shapes using Support Vector Machines (SVMs) with Radial Basis Function (RBF) kernels. In this way, a shape is represented as a classifier function, which has several advantages: (a) the representation is completely general, \eg it can be applied to sparse landmark points, curves lines or a combination of the two and (b) it fuses inconsistent landmarks into consistent and directly comparable decision functions. Furthermore, this representations is also robust against noise, missing data and outliers \cite{Nguyen2013}.
+In order to fully capture the variability among most deformable objects' shapes annotations, we use a representation based on Support Vector Shapes (SVS) \cite{Nguyen2013}. An SVS is a decision function trained on shapes using Support Vector Machines (SVMs) with Radial Basis Function (RBF) kernels. In this way, a shape is represented as a classifier function, which has several advantages: (a)~the representation is completely generic, e.g. it can be applied to sparse landmark points, curves lines or a combination of the two, and~(b) it fuses inconsistent landmarks into consistent and directly comparable decision functions. Furthermore, this representations is also robust against noise, missing data and outliers \cite{Nguyen2013}.
 
 %In practice, we assume that all the training images correspond to the same object category and contain a set of inconsistent points and curve line annotations. 
 The curve annotations for all training images are densely sampled to yield a set of landmarks per image, with this set being different for every training image. To train the SVM, these landmarks are assigned as belonging to the class with label `+1', whereas randomly sampled points around them are assigned as belonging to the class with label `-1'. Since the class `+1' has far less points than the class `-1', landmarks are assigned considerably larger weights so that $N_p \times W_p=N_n \times W_n$ where $N_p, N_n$ are number of points of the class `+1' and `-1' respectively and $W_p, W_n$ are their corresponding weights.
@@ -40,7 +50,7 @@ SVMs with RBF kernel function map any number of data points onto an infinite-dim
 where $\bm{x}_i^*$ are the so-called support vectors and \mbox{$k(\bm{x}, \bm{y}) = \exp\left(-\frac{\|\bm{x} -\bm{y}\|^2}{2 \sigma^2}\right)$} is the RBF kernel. The decision function $d(\bm{x})$ can be defined for every pixel $\bm{x}$ of the corresponding object image, therefore we interpret is as an image and we call it \emph{SVS image}.
 
 
-Figure \ref{fig:build_svs} shows an exemplar shape representation using SVS. As it can be observed, the final result does not drastically depend on the original number of annotated landmarks.
+Figure \ref{fig:build_svs} shows an exemplar shape representation of the human ear using SVS. As it can be observed, the final result does not drastically depend on the original number of annotated landmarks.
 
 
 % \begin{figure}[b!]
@@ -66,12 +76,13 @@ Figure \ref{fig:build_svs} shows an exemplar shape representation using SVS. As 
     \label{fig:build_svs}
 \end{figure}
 
-We extend the SVS representation to support also the case where multiple curves with different labels are annotated. This is useful when annotating different structures of the same object, such as the curve of the left eyebrow and the curve of the right eyebrow on faces. Even though not absolutely necessary in our framework, it can provide further guidance on the estimation of dense shape correspondences. In more detail, we create a multi-channel SVS image $\bm{d}(\bm{x})=[d_1(\bm{x}) \cdots d_i(\bm{x}) \cdots d_{N_c}(\bm{x})]$, where $d_i(\bm{x})$ is the SVS image that corresponds to the curve annotation of the $i$-th structure and $N_c$ is the total number of structures (a single curve annotation is the special case where $N_c=1$). Note that we do not necessarily require that all structures are annotated in all the object images: in the case that a structure is not annotated, the corresponding channel of the SVS image simply takes a zero value for all pixels. The shape flow estimation can deal with such missing information thanks to the spatial regularisation and the low-rank constraint that it adopts, c.f.~Section \ref{sec:shapeflow}.
+We extend the SVS representation to support also the case where multiple curves with different labels are annotated. This is useful when annotating different structures of the same object, such as the curve of the left eyebrow and the curve of the right eyebrow on faces. Even though not absolutely necessary in our framework, it can provide further guidance on the estimation of dense shape correspondences for various object classes. In more detail, we create a multi-channel SVS image $\bm{d}(\bm{x})=[d_1(\bm{x}) \cdots d_i(\bm{x}) \cdots d_{N_c}(\bm{x})]$, where $d_i(\bm{x})$ is the SVS image that corresponds to the curve annotation of the $i$-th structure and $N_c$ is the total number of structures (a single curve annotation is the special case where $N_c=1$). Note that we do not necessarily require that all structures are annotated in all the object images: in the case that a structure is not annotated, the corresponding channel of the SVS image simply takes a zero value for all pixels. The shape flow estimation can deal with such missing information thanks to the spatial regularisation and the low-rank constraint that it adopts, c.f.~Step~\ref{sec:step3}.
 
 After constructing the SVS representation for all images, the next step is to apply a simple similarity alignment over them. This is done because the goal here is to build a model capable of effectively representing non-rigid local shape deformations rather than global rotation, translation and scaling. The alignment is performed by using the Iterative Closest Point (ICP) algorithm \cite{Besl1992} on the annotated landmarks point cloud of the training images.
 
 
-\subsection{Correspondence Basis for Shape Flow Estimation}
+%\subsection{Correspondence Basis for Shape Flow Estimation}
+{\refstepcounter{steps}\label{sec:step2}\subsection*{Step 2: Correspondence Basis for Shape Flow Estimation}}
 
 We define the problem of shape flow as the joint estimation of optical flow fields between a reference SVS image and every SVS image of the training dataset, which yields dense correspondences across SVS images. This also defines for every training SVS image a warping function that registers it with the reference SVS image. To establish the dense correspondences robustly, we are inspired by the idea of subspace constraints in the estimation of multiframe optical flow \cite{Garg:2013hu}.
 
@@ -146,9 +157,9 @@ The next section describes the methodology of constructing the correspondence ba
 
 % ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-\subsection{Shape Flow Estimation}
-\label{sec:shapeflow}
+{\refstepcounter{steps}\label{sec:step3}\subsection*{Step 3: Shape Flow Estimation}}
+% \subsection{Shape Flow Estimation}
+% \label{sec:step3}
 
 
 %Using the SVS functions built from training data, one of the main steps of our pipeline is to estimate dense correspondences between all these functions. We propose to perform this estimation simultaneously for all training data, by using the correspondence basis. 
@@ -317,34 +328,34 @@ Figure~\ref{fig:deformationfield} shows some examples of deformation fields deri
 %     \label{fig:models}
 % \end{figure}
 
-\subsection{Dense Active Appearance Models}
+{\refstepcounter{steps}\label{sec:step4}\subsection*{Step 4: Dense and Part-Based Active Appearance Models}}
+% \subsection{Dense and Part-Based Active Appearance Models}
 
-The deformation fields obtained from section \ref{sec:shapeflow} can be effectively used to learn a naturally dense version of Active Appearance Models \cite{Cootes2001, Matthews2004}. Because all deformation fields contain the same number of pixels (the same as on the reference frame) the spatial positions $\bm{x}_i=(x_i, y_i)$ of these pixels can be treated as point landmarks and the deformation field themselves as dense annotations of the object's shape. Consequently, building a dense shape model reduces to normalizing these dense annotations with respect to a global similarity transform (typically using Procrustes Analysis) and applying Principal Component Analysis (PCA). The resulting shape model can be mathematically expressed as:
+The deformation fields obtained from Step~\ref{sec:step3} can be used to naturally build two different kinds of effective AAMs \cite{Cootes2001, Matthews2004}: \emph{dense} \cite{ramnath2008increasing, Amberg2009, anderson2014using} and \emph{part-based} \cite{Tzimiropoulos2014}. The only difference between these two AAM formulations is on the way that the shape is represented and, thus, the manner in which the texture is sampled. Each one of them is suitable for object classes with specific properties. The dense AAM provides an exceptionally effective modeling and fitting for non-articulated objects, such as ears and faces, whose appearance has characteristic structures that spread all over their region (even if these structures cannot be consistently annotated). On the other hand, there exist other challenging object classes, such as arms and legs, that not only cannot be consistently annotated with landmarks, but their appearance is distinctive only on the object's outline and not in its interior region. Especially in the case of human body parts, they are almost always covered by clothes, which makes it impossible to construct robust texture models.
+
+\paragraph{Dense Active Appearance Model} Since all the deformation fields acquired by Step~\ref{sec:step3} contain the same number of pixels, which are the same as in the reference frame, the spatial positions $\bm{x}_i=(x_i, y_i)$ of these pixels can be treated as point landmarks and the deformation fields as dense annotations of the object's shape. Consequently, building a dense shape model reduces to normalising these dense annotations with respect to a global similarity transform (typically using Procrustes Analysis) and applying PCA. A shape instance can be generated by the resulting shape model as:
 \begin{equation}
-    \begin{aligned}
-        \bm{s} & = \bm{\bar{s}} + \bm{S} \bm{p}
-    \end{aligned}
+    \bm{s}(\bm{p}) = \bm{\bar{s}} + \bm{S} \bm{p}
     \label{eq:shape_model}
 \end{equation}
-where $\bm{\bar{s}}$ is mean shape and $\bm{S}$ and $\bm{p}$ are the shape bases and shape parameters respectively.
+where $\bm{\bar{s}}$ is mean shape, and $\bm{S}$ and $\bm{p}$ are the shape bases and shape parameters, respectively.
 
-On the other hand, the texture model associated to the previous set of densified shapes can be easily obtained by warping all image onto the reference frame, making explicit use of the one-to-one correspondence between pixels on the reference frame and on the deformation fields. Once the images have been warped, the texture model is obtained by applying PCA on the warped images. The texture model is mathematically defined by the following expression:
+By making explicit use of the one-to-one correspondence between pixels on the reference frame and on the deformation fields, the motion model of sparse holistic AAMs \cite{Cootes2001, Matthews2004} (piece-wise affine, thin-plates splines \cite{Bookstein1989}) is replaced by sampling all pixel values onto the reference frame. Let us define this sampling function, given a shape instance $\bm{s}(\bm{p})$, as $\mathcal{W}(\bm{s}(\bm{p}))$. Once the images have been warped, the texture model is obtained by applying PCA on them. A texture instance can be generated as:
 \begin{equation}
-    \begin{aligned}
-        \bm{t} = \bm{\bar{t}} + \bm{T} \bm{c}
-    \end{aligned}
+    \bm{t}(\bm{c}) = \bm{\bar{t}} + \bm{T} \bm{c}
 	\label{eq:tex_model}
 \end{equation}
-where $\bm{t}$ is the mean texture, and $\bm{T}$ and $\bm{c}$ are the texture bases and texture parameters respectively.
+where $\bm{t}$ is the mean texture, and $\bm{T}$ and $\bm{c}$ are the texture bases and texture parameters, respectively.
 
-Note that, both shape and texture models are directly related through the established one-to-one correspondence between dense landmarks and pixels on the reference frame. Therefore, in clear contrast to classic AAMs formulations \cite{Cootes2001, Matthews2004}, in our dense formulation no motion model (piece-wise affine, thin-plates splines \cite{Bookstein1989}) is required to relate the previous shape and texture models . As noted in other works \cite{Amberg2009, Tzimiropoulos2014}, this has the advantage that all efficient compositional gradient descent algorithms for fitting AAMs \cite{Papandreou2008, Matthews2004, Amberg2009, Tzimiropoulos2013, Alabort2014} become exact under our formulation.
+Given a test image $\mathbf{I}$, the fitting process involves the minimisation of the following cost function:
+\begin{equation}
+    \arg\min_{\bm{p}, \bm{c}}\|\bm{I}(\mathcal{W}(\bm{s}(\bm{p}))) - \bm{t}(\bm{c})\|_2^2
+	\label{eq:aam_cost}
+\end{equation}
+This optimisation problem is typically solved using the inverse-compositional Gauss-Newton algorithm, for which different variations have been proposed \cite{Matthews2004, Papandreou2008, Amberg2009, Tzimiropoulos2013, Alabort2014}. Note that the existence of the sampling function $\mathcal{W}()$ instead of a non-linear warping function has the advantage that all existing efficient gradient descent algorithms become exact.
 
-This shape flow-based dense AAM formulation provides an exceptionally effective modeling and fitting for various objects, such as ears and faces, whose appearance has characteristic structures spread all over the object region (even if these structures cannot be consistently annotated). Therefore, what has been described so far completes our proposed approach in training and fitting deformable models of this type of objects.
-
-However, there exist other challenging object types, such as forearms, legs and full body, that not only cannot be consistently annotated with landmarks, but also whose appearance is informative almost entirely on the object outline and not in the interior object region. This is due to the hugely varying texture of these objects (e.g.~colors and patterns of clothes) that is typically totally unrelated to their shape. For these cases, we propose to add some additional steps on our methodology. More specifically, we propose to focus on the dense correspondences solely on the object outline, utilize them to automatically estimate highly-accurate object skeleton landmarks and then adopt a parts-based deformable modeling. These steps will be described in the next section.
-
-
-\subsection{Outline-based Deformable Modeling}
+\paragraph{Outline Part-Based Active Appearance Model}
+For 
 
 As already mentioned, for estimating body pose and modeling other object types with similar challenges, we propose to only consider the established correspondences on the object outline.
 
