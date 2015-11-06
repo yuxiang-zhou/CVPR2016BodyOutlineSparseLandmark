@@ -25,13 +25,11 @@ This sections evaluates the performance of proposed methodology in estimating co
 
 This experiment compares the fitting accuracy of our dense Active Appearance Models (dAAMs) versus the one of classic AAM on the problem of nonrigid face and ear alignment in-the-wild. 
 
-\subsubsection{Databases \& Error Metrics}
+\textbf{Databases \& Error Metrics}
 For face experiment, both models were built using the 811 training images of the Labelled
 Faces Parts in-the-Wild (LFPW) \cite{Asthana2014} database. Classic AAM were built from 68 point landmark annotations using the standard procedure described in \cite{Cootes2001,Matthews2004}; piecewise affine was used as their motion model. Our dAAMs were built as the pipeline proposed. Results for this experiment are reported over the 224 testing images of the LFPW database using again 68 point ground truth landmark annotations. For this experiment, we report results using pixels intensities (INT) for both models. 
 
 For ear experiment, we studied the feasibility of building and fitting statistical deformable models that capture the variability of the human ear. To this end, we collected 605 high resolution images of ears in unconstrained scenarios and annotated them using both a newly defined 55 point annotation scheme for ears and the curve annotations proposed in this paper. Examples of these two type of ear annotations are shown in Figure \ref{fig:intro}. We randomly split the previous database into two disjoint sets of training (500) and testing (105) images. Both models were built using the 500 images training set and their fitting accuracy evaluated on the 105 images of the testing set. Note here that we used the same procedures to build the models as for faces and same error metric for evaluation.
-
-\subsubsection{Experiments}
 
 \begin{figure}[b!]
     \centering
@@ -43,7 +41,8 @@ For ear experiment, we studied the feasibility of building and fitting statistic
     \label{fig:daam_benchmark}
 \end{figure}
 
-CED Curves for this experiment are shown in Figure \ref{fig:daam_benchmark}. We can readily observe that the accuracy achieved by ear models, in terms of the previous normalized point-to-point error measure, is lower than the one achieved by face models. This result is expected due to the more complex structure of the ear shape. Through visual inspection we determined that fitting errors below 0.1 for ears typically look plausible under the previous error measure where fitting errors below 0.6 for faces. Results show that, for this experiment, the fitting accuracy achieved by our dAAMs is marginally better to the one achieved by classic AAMs using intensity representations. In fact, classic AAM fail to improve the accuracy of the original initialisation on ears. Therefore the propose pipeline is capable of dealing with the complex structure of non-rigid shapes and learn dAAMs from simple curve line annotations that can compete and even surpass (in the case of a simple pixel intensity image representation) classic AAM, build from carefully annotated point landmarks, is quite remarkable.
+\textbf{Experiments}
+CED Curves for this experiment are shown in Figure \ref{fig:daam_benchmark}. We can readily observe that the accuracy achieved by ear models, in terms of the previous normalised point-to-point error measure, is lower than the one achieved by face models. This result is expected due to the more complex structure of the ear shape. Through visual inspection we determined that fitting errors below 0.1 for ears typically look plausible under the previous error measure where fitting errors below 0.6 for faces. Results show that, for this experiment, the fitting accuracy achieved by our dAAMs is marginally better to the one achieved by classic AAMs using intensity representations. In fact, classic AAM fail to improve the accuracy of the original initialisation on ears. Therefore the propose pipeline is capable of dealing with the complex structure of non-rigid shapes and learn dAAMs from simple curve line annotations that can compete and even surpass (in the case of a simple pixel intensity image representation) classic AAM, build from carefully annotated point landmarks, is quite remarkable.
 
 
 
@@ -56,14 +55,13 @@ CED Curves for this experiment are shown in Figure \ref{fig:daam_benchmark}. We 
 \label{exp:benchmark}
 This section provides experiments showing that training patch-based AAM from outline annotation provides remarkable joints estimation.
 
-\subsubsection{Dataset \& Error Metric}
+\textbf{Dataset \& Error Metric}
 There are significant numbers of datasets exist for human pose estimation, where FLIC\cite{sapp2013modec}, BBC Pose\cite{pfister2015flowing}, Fashion Pose\cite{dantone2013human} and MPII\cite{andriluka14cvpr} attracted most public attention. In our work, we reported our performance comparison on BBC Pose Dataset\cite{pfister2015flowing}, which has relatively most consistent skeleton annotation among the others.
 
 The training of patch-based AAM for arms involves manual outline annotation from a combination of datasets, including H3D \cite{PoseletsICCV09}, Microsoft COCO \cite{lin2014microsoft}, MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. The training set contains 891 training images from where 500 are annotated with outline manually. A dAAMs is built from 500 training images thereby produces dense correspondences for generating sparse outline annotation (29 landmarks). A patch-based AAM is build from sparse annotations before fitting to 391 images. Manual minor correction are required for putting those fitted image to training set. The final patch-based AAM is built from 891 images and validated on validation set given by BBC Pose.
 
 In order to compare with current state-of-the-art human pose estimation on BBC Pose, we uses same error metric as BBC Poses does, which normalises testing images to have height of 256 pixels. Performance measure of experiments in this paper are plot with Cumulative Error Distribution (CED) curve, where graph shows accuracy against distance from ground truth in pixels on normalised images.
 
-\subsubsection{Experiments}
 
 \begin{figure}[b!]
     \centering
@@ -75,10 +73,10 @@ In order to compare with current state-of-the-art human pose estimation on BBC P
     \label{fig:hand_benchmark}
 \end{figure}
 
-
+\textbf{Experiments} 
 Two experiments are undertaken in this section: 1) presenting training classic patch-based AAM from outline annotation provides remarkable joints estimation; 2) supporting outline annotation by comparing with training classic patch-based AAM from joint annotation.
 
-First experiment presented the accuracy of predicting joints positions from establishing dense correspondences with outline fitting. We build patch-based AAM using 891 training hand images from a combination of datasets, where each image has 29 landmarks annotated alone its boundary. SIFT \cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting is initialised based on current state-of-the-art human pose estimation algorithms on BBC Pose dataset. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method.
+First experiment presented the accuracy of predicting joints positions from establishing dense correspondences with outline fitting. We build patch-based AAM using 891 training hand images from a combination of datasets, where each image has 29 landmarks annotated alone its boundary. SIFT \cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting is initialised based on current state-of-the-art human pose estimation algorithms (including Buehler \cite{buehler2011upper}, Charles14 \cite{charles2014upper}, Charles13 \cite{charles2013domain}, Pfister14 \cite{pfister2015deep}, Ramanan \cite{yang2013articulated} and Pfister15 \cite{pfister2015flowing}) on BBC Pose \cite{pfister2015flowing} dataset. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method.
 
 Second experiment investigates the disadvantages of using skeleton annotation. We build patch-based AAM on joints with same training data and with SIFT representation. Both models are fine-tuned on BBC Pose validation set. The fitting procedure is performed under exactly same condition, e.g. same testing set and initialisation position. 
 
@@ -113,6 +111,8 @@ CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} whi
 \begin{figure*}[!t]
     \newcommand{\fh}{0.24\columnwidth}
     \centering
+    \includegraphics[height=\fh]{resources/Fixing/fix_1}
+    \includegraphics[height=\fh]{resources/Fixing/fix_2}
     \includegraphics[height=\fh]{resources/Fixing/fix_3}
     \includegraphics[height=\fh]{resources/Fixing/fix_5}
     \includegraphics[height=\fh]{resources/Fixing/fix_6}
@@ -120,13 +120,14 @@ CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} whi
     \includegraphics[height=\fh]{resources/Fixing/fix_8}
     \includegraphics[height=\fh]{resources/Fixing/fix_9}
     \includegraphics[height=\fh]{resources/Fixing/fix_10}
+    \includegraphics[height=\fh]{resources/Fixing/fix_20}
     \includegraphics[height=\fh]{resources/Fixing/fix_12}
     \includegraphics[height=\fh]{resources/Fixing/fix_13}
     \includegraphics[height=\fh]{resources/Fixing/fix_14}
     \includegraphics[height=\fh]{resources/Fixing/fix_15}
     \includegraphics[height=\fh]{resources/Fixing/fix_17}
     \includegraphics[height=\fh]{resources/Fixing/fix_18}
-    \includegraphics[height=\fh]{resources/Fixing/fix_19}
+    % \includegraphics[height=\fh]{resources/Fixing/fix_19}
     \caption{Demonstration of annotation correction using our method for experiment \ref{exp:qualitative}. \emph{Red} dots refer to officially provided landmarks, and \emph{green} dots are corrected position.}
     \label{fig:qualitative}
 \end{figure*}
@@ -134,7 +135,7 @@ CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} whi
 \begin{figure*}[!t]
     \newcommand{\ofh}{0.24\columnwidth}
     \centering
-    \includegraphics[height=\ofh]{resources/Fittings/1.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/20.eps}
     \includegraphics[height=\ofh]{resources/Fittings/3.eps}
     \includegraphics[height=\ofh]{resources/Fittings/19.eps}
     \includegraphics[height=\ofh]{resources/Fittings/4.eps}
@@ -166,4 +167,4 @@ CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} whi
 
 This experiment demonstrates inconsistency of joints annotation among MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human} and FLIC \cite{sapp2013modec}, as well as investigate the inevitable variance of manual annotation. Three well trained annotators are used to annotate left arm using 120 test images from Fashion Pose \cite{dantone2013human} dataset. Figure \ref{fig:variance} presents statistical results calculated using data annotated and officially provided with normalisation based on length of arms. Exemplar annotation visualisation also shows significant inconsistency of manual annotation on joints.
 
-Figure \ref{exp:qualitative} presents corrections of joint annotations using patch-based SDM trained as experiment \ref{exp:benchmark}. \emph{Red} dots shows ``ground truth" points while \emph{green} dots shows landmarks after correction using our methodology. There is no doubt that points after correction show more consistency among images. Images are croped to hand only for better visualisation. 
+Figure \ref{exp:qualitative} presents corrections of joint annotations using patch-based SDM trained as experiment \ref{exp:benchmark}. \emph{Red} dots shows ``ground truth" points while \emph{green} dots shows landmarks after correction using our methodology. There is no doubt that points after correction show more consistency among images. Images are cropped to hand only for better visualisation. 
