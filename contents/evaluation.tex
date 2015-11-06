@@ -6,37 +6,12 @@ There are significant numbers of datasets exist for human pose estimation, where
 
 \begin{figure}[t!]
     \centering
-    % \begin{subfigure}[b]{0.05\textwidth}
-    %         \includegraphics[width=\textwidth]{resources/Fig_Variance/image_0}
-    % \end{subfigure}
-    % \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_1}
-    \end{subfigure}
-  	\hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_2}
-    \end{subfigure}
-    \hfill
-    % \begin{subfigure}[b]{0.07\textwidth}
-    %         \includegraphics[height=4.8cm]{resources/Fig_Variance/image_3}
-    % \end{subfigure}
-    % \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_4}
-    \end{subfigure}
-  	\hfill
-    % \begin{subfigure}[b]{0.05\textwidth}
-    %         \includegraphics[width=\textwidth]{resources/Fig_Variance/image_5}
-    % \end{subfigure}
-    % \hfill
-    \begin{subfigure}[b]{0.08\textwidth}
-            \includegraphics[height=5.5cm]{resources/Fig_Variance/image_6}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.125\textwidth}
-            \includegraphics[height=5.5cm]{resources/Fig_Variance/variances}
-    \end{subfigure}
+    \newcommand{\vfh}{4cm}
+    \includegraphics[height=\vfh]{resources/Fig_Variance/image_1}
+    \includegraphics[height=\vfh]{resources/Fig_Variance/image_2}
+    \includegraphics[height=\vfh]{resources/Fig_Variance/image_4}
+    \includegraphics[height=\vfh]{resources/Fig_Variance/image_6}
+    \includegraphics[height=\vfh]{resources/Fig_Variance/variances}
     \caption{Exemplar human pose annotation for left arm among four annotators. Large variance shows the difficulties of have consistent landmarks. Figure best viewed by zooming in.}
     \label{fig:variance}
 \end{figure}
@@ -147,20 +122,28 @@ Figure \ref{exp:qualitative} presents corrections of joint annotations using pat
 \begin{figure*}[t!]
     \newcommand{\ofh}{0.24\columnwidth}
     \centering
-    \includegraphics[height=\ofh]{resources/Fixing/fix_3}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_5}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_6}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_7}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_8}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_9}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_10}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_12}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_13}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_14}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_15}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_17}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_18}
-    \includegraphics[height=\ofh]{resources/Fixing/fix_19}
-    \caption{Demonstration of annotation correction using our method for experiment \ref{exp:qualitative}}
+    \includegraphics[height=\ofh]{resources/Fittings/1.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/3.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/4.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/6.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/7.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/8.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/13.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/15.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/17.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/19.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/21.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/23.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/25.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/27.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/29.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/31.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/33.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/35.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/36.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/37.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/38.eps}
+    \includegraphics[height=\ofh]{resources/Fittings/39.eps}
+    \caption{Demonstration of outline fitting of patch AAM}
     \label{fig:outline_fitting}
 \end{figure*}
