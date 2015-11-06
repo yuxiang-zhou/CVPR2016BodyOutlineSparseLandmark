@@ -98,7 +98,7 @@ CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} whi
 
 \begin{figure}[b!]
     \centering
-    \includegraphics[width=0.25\columnwidth]{resources/DAAMBenchmark/legend}
+    \includegraphics[width=0.6\columnwidth]{resources/DAAMBenchmark/legend}
     \\
     \includegraphics[width=0.48\columnwidth]{resources/DAAMBenchmark/face}
     \includegraphics[width=0.48\columnwidth]{resources/DAAMBenchmark/ear}
@@ -119,8 +119,12 @@ CED Curves for this experiment are shown in Figure \ref{fig:daam_benchmark}. We 
 \subsection{Annotation Correction}
 \label{exp:qualitative}
 
+This experiment demonstrates inconsistency of joints annotation among MPII, Fashion Pose and FLIC, as well as investigate the inevitable variance of manual annotation. Three well trained annotators are used to annotate left arm using 120 test images from Fashion Pose dataset. Figure \ref{fig:variance} presents statistical results calculated using data annotated and officially provided with normalisation based on length of arms. Exemplar annotation visualisation also shows significant inconsistency of manual annotation on joints.
+
+Figure \ref{exp:qualitative} presents corrections of joint annotations using patch-based SDM trained as experiment \ref{exp:benchmark}. \textbf{Red dots} shows ``ground truth" points while \textbf{green dots} shows landmarks after correction using our methodology. There is no doubt that points after correction show more consistency among images. Images are croped to hand only for better visualisation.
 
 \begin{figure*}[t!]
+    \newcommand{\fh}{0.24\columnwidth}
     \centering
     \includegraphics[height=\fh]{resources/Fixing/fix_3}
     \includegraphics[height=\fh]{resources/Fixing/fix_5}
@@ -138,4 +142,25 @@ CED Curves for this experiment are shown in Figure \ref{fig:daam_benchmark}. We 
     \includegraphics[height=\fh]{resources/Fixing/fix_19}
     \caption{Demonstration of annotation correction using our method for experiment \ref{exp:qualitative}}
     \label{fig:qualitative}
+\end{figure*}
+
+\begin{figure*}[t!]
+    \newcommand{\ofh}{0.24\columnwidth}
+    \centering
+    \includegraphics[height=\ofh]{resources/Fixing/fix_3}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_5}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_6}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_7}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_8}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_9}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_10}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_12}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_13}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_14}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_15}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_17}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_18}
+    \includegraphics[height=\ofh]{resources/Fixing/fix_19}
+    \caption{Demonstration of annotation correction using our method for experiment \ref{exp:qualitative}}
+    \label{fig:outline_fitting}
 \end{figure*}
