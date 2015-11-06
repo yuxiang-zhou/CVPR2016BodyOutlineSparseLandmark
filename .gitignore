@@ -6,3 +6,6 @@
 *.odg
 *.odg#
 *eps-converted-to.pdf
+*.bbl
+*.blg
+*.brf
