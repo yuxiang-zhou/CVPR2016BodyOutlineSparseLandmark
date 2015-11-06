@@ -47,7 +47,7 @@ SVMs with RBF kernel function map any number of data points onto an infinite-dim
 \begin{equation} \label{eq:decisionfunc}
     d(\bm{x})=\sum_i\alpha_i \, k(\bm{x}_i^*,\bm{x})
 \end{equation}
-where $\bm{x}_i^*$ are the so-called support vectors and \mbox{$k(\bm{x}, \bm{y}) = \exp\left(-\frac{\|\bm{x} -\bm{y}\|^2}{2 \sigma^2}\right)$} is the RBF kernel. The decision function $d(\bm{x})$ can be defined for every pixel $\bm{x}$ of the corresponding object image, therefore we interpret is as an image and we call it \emph{SVS image}.
+where $\bm{x}_i^*$ are the so-called support vectors and \mbox{$k(\bm{x}, \bm{y}) = \exp\left(-\frac{\|\bm{x} -\bm{y}\|^2}{2 \sigma^2}\right)$} is the RBF kernel. The decision function $d(\bm{x})$ can be defined for every pixel $\bm{x}$ of the corresponding object image, therefore we interpret it as an image and we call it \emph{SVS image}.
 
 
 Figure \ref{fig:build_svs} shows an exemplar shape representation of the human ear using SVS. As it can be observed, the final result does not drastically depend on the original number of annotated landmarks.
@@ -172,7 +172,7 @@ As already mentioned, our shape flow estimation builds upon robust methods for m
 
 
 
-\subsubsection{Non-rigid ICP and Correspondence Basis Creation} \label{sec:trabasis}
+\subsubsection*{Non-rigid ICP and Correspondence Basis Creation} \label{sec:trabasis}
 
 
 
@@ -237,7 +237,7 @@ To effectively build the correspondence basis, we first transform the original a
 
 
 
-\subsubsection{Variational Shape Flow Estimation}%{Multi-image Subspace Flow}
+\subsubsection*{Variational Shape Flow Estimation}%{Multi-image Subspace Flow}
 \label{varshapeflow}
 
 
@@ -264,7 +264,7 @@ $\bm{u}_n(x)$ is decoupled for every pixel $\bx$ and every shape index $i$. This
 
 
 
-Figure~\ref{fig:deformationfield} shows some examples of deformation fields derived from the estimated shape flow computed by the aforementioned method. These results correspond to exemplar training shapes in the case of a face dataset.
+Figure~\ref{fig:deformationfield} shows some examples of deformation fields derived from the estimated shape flow computed by the aforementioned method. These results correspond to exemplar training shapes in the case of an arm dataset.
 
 
 %
@@ -335,8 +335,8 @@ Figure~\ref{fig:deformationfield} shows some examples of deformation fields deri
 \begin{figure}[b!]
     \centering
     \includegraphics[width=0.45\textwidth]{resources/models}
-    \caption{Exemplar dense shape models build for faces and ears. Shapes are presented as grid for better visualisation.}
-    \label{fig:build_svs}
+    \caption{Exemplar dense shape models build for faces and ears. Dense shapes are presented as grid for better visualisation.}
+    \label{fig:dense_models}
 \end{figure}
 
 
