@@ -1,4 +1,6 @@
-This sections evaluates the performance of proposed methodology in estimating correspondences of human poses in-the-wild. Results for quantitative an qualitative experiments are reported. Experiments \ref{exp:daam_benchmark} show performance of fitting dense SDMs built to non-rigid objects having rich interior textures e.g. faces and ears. Experiments \ref{exp:benchmark} compare the joints localisation accuracy of our skeleton prediction from outline fitting with respect to that of state-of-the-art human pose estimation algorithms in-the-wild. In addition, this experiment investigates the impact of annotating outlines of human poses instead of annotating skeletons. Note that all results reported in this section were obtained by fitting patch-based AAM using the fast version of the Simultaneous Inverse Compositional algorithm (Fast-SIC) originally proposed by the authors of \cite{Papandreou2008}. For further experimental results and visualisations please refer to our supplementary material.
+We evaluate the performance of the proposed methodology in experiments of estimating correspondences of human poses in-the-wild and in non-rigid object alignment in-the-wild.  For further experimental results and visualisations please refer to our supplementary material. 
+
+%Results of quantitative and qualitative evaluations are reported. 
 
 \begin{figure}[t!]
     \centering
@@ -16,14 +18,11 @@ This sections evaluates the performance of proposed methodology in estimating co
 
 
 
-
-
-
-
 \subsection{Non-rigid Object Alignment In-the-wild}
 \label{exp:daam_benchmark}
 
-This experiment compares the fitting accuracy of our dense Active Appearance Models (dAAMs) versus the one of classic AAM on the problem of nonrigid face and ear alignment in-the-wild. 
+
+This experiment compares the fitting accuracy of dense Active Appearance Models (dAAMs) trained with the proposed framework, as compared to classic AAMs. We here consider two object classes that have rich interior textures: faces and ears. The comparisons are for the problem of non-rigid face and ear alignment in-the-wild. 
 
 \paragraph{Databases \& Error Metrics} For face experiment, both models were built using the 811 training images of the Labelled Faces Parts in-the-Wild (LFPW) \cite{Asthana2014} database. Classic AAM were built from 68 point landmark annotations using the standard procedure described in \cite{Cootes2001,Matthews2004}; piecewise affine was used as their motion model. Our dAAMs were built as the pipeline proposed. Results for this experiment are reported over the 224 testing images of the LFPW database using again 68 point ground truth landmark annotations. For this experiment, we report results using pixels intensities (INT) for both models. 
 
@@ -51,6 +50,11 @@ For ear experiment, we studied the feasibility of building and fitting statistic
 \subsection{Arm Pose Estimation}
 \label{exp:benchmark}
 This section provides experiments showing that training patch-based AAM from outline annotation provides remarkable joints estimation.
+
+Experiments \ref{exp:benchmark} compare joints localisation accuracy of our skeleton prediction from outline fitting with respect to that of state-of-the-art human pose estimation algorithms in-the-wild. In addition, the experiment investigates the impact of annotating outlines of human poses instead of annotating skeletons. Note that all results reported in this section were obtained by fitting patch-based AAM using the fast version of the Simultaneous Inverse Compositional algorithm (Fast-SIC) originally proposed by the authors of \cite{Papandreou2008}. 
+
+
+
 
 \paragraph{Dataset \& Error Metric} There are significant numbers of datasets exist for human pose estimation, where FLIC\cite{sapp2013modec}, BBC Pose\cite{pfister2015flowing}, Fashion Pose\cite{dantone2013human} and MPII\cite{andriluka14cvpr} attracted most public attention. In our work, we reported our performance comparison on BBC Pose Dataset\cite{pfister2015flowing}, which has relatively most consistent skeleton annotation among the others.
 
