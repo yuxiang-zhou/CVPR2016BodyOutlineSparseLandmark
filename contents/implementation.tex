@@ -69,12 +69,12 @@ Figure \ref{fig:build_svs} shows an exemplar shape representation of the human e
 %     \label{fig:build_svs}
 % \end{figure}
 
-\begin{figure}[b!]
-    \centering
-    \includegraphics[width=0.4\textwidth]{resources/svs2}
-    \caption{Exemplar SVS shape representation. A similar SVS image is obtained from different annotations of the same shape.}
-    \label{fig:build_svs}
-\end{figure}
+% \begin{figure}[b!]
+%     \centering
+%     \includegraphics[width=0.4\textwidth]{resources/svs2}
+%     \caption{Exemplar SVS shape representation. A similar SVS image is obtained from different annotations of the same shape.}
+%     \label{fig:build_svs}
+% \end{figure}
 
 We extend the SVS representation to support also the case where multiple curves with different labels are annotated. This is useful when annotating different structures of the same object, such as the curve of the left eyebrow and the curve of the right eyebrow on faces. Even though not absolutely necessary in our framework, it can provide further guidance on the estimation of dense shape correspondences for various object classes. In more detail, we create a multi-channel SVS image $\bm{d}(\bm{x})=[d_1(\bm{x}) \cdots d_i(\bm{x}) \cdots d_{N_c}(\bm{x})]$, where $d_i(\bm{x})$ is the SVS image that corresponds to the curve annotation of the $i$-th structure and $N_c$ is the total number of structures (a single curve annotation is the special case where $N_c=1$). Note that we do not necessarily require that all structures are annotated in all the object images: in the case that a structure is not annotated, the corresponding channel of the SVS image simply takes a zero value for all pixels. The shape flow estimation can deal with such missing information thanks to the spatial regularisation and the low-rank constraint that it adopts, c.f.~Step~\ref{sec:step3}.
 
@@ -133,20 +133,14 @@ The next section describes the methodology of constructing the correspondence ba
 % \end{equation}
 
 \begin{figure}[t!]
-        \centering
-        \begin{tabular}{ccc}
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/1}
-        &
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/2}
-        &
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/3}
-        \\
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/4}
-        &
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/5}
-        &
-        \includegraphics[trim=200 150 200 50,clip,width=.25\columnwidth]{resources/Fig_Flows/6}
-        \end{tabular}
+    \centering
+    \newcommand{\flowh}{0.25\columnwidth}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/1}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/2}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/3}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/4}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/5}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/6}
     \caption{Exemplar deformation fields for the left forearm, obtained using the proposed pipeline. Figure best viewed by zooming in.}
     \label{fig:deformationfield}
 \end{figure}
