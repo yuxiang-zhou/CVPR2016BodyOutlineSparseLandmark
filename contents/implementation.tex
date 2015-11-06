@@ -150,7 +150,34 @@ To effectively build the correspondence basis, we first transform the original a
     \label{fig:deformationfield}
 \end{figure}
 
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{resources/models}
+    \caption{Exemplar dense shape models build for faces and ears. Dense shapes are presented as grid for better visualisation.}
+    \label{fig:dense_models}
+\end{figure}
 
+
+\begin{figure*}[t!]
+\begin{center}
+ \begin{tabular}{ccc}
+\subfigure[]{
+    \newcommand{\flowh}{0.12\columnwidth}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/1}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/2}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/3}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/4}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/5}
+    \includegraphics[height=\flowh]{resources/Fig_Flows/6}
+} &
+\subfigure[]{
+    \includegraphics[width=0.2\textwidth]{resources/models}
+}
+ \end{tabular}
+\end{center}
+\caption{(a) . (b) }
+\label{REC}
+\end{figure*}
 
 
 
@@ -178,7 +205,9 @@ E_{sf} & =\alpha
     &+
 \int_\Omega  \sum_{i=1}^R \,\, \left \|    \nabla \bm{v}_i(\bx)    \right \|  \,\ud \bx \label{eq:TVterm}
 \end{align}
-This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior. We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$. The positive parameters $\alpha$ and $\beta$ weigh the balance between the terms of the energy.
+This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior. 
+%We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$. 
+The positive parameters $\alpha$ and $\beta$ weigh the balance between the terms of the energy.
 
 The \textbf{first term} of the above energy \eqref{eq:costfunc} is a data attachment term
 that uses the robust $\Lone$-norm.  It is based on the assumption that the values of the reference SVS image $\bm{d}_0(\bx)$ at every pixel $\bx$ are preserved at its corresponding locations on all training SVS images $\bm{d}_n(\bx)$. The use of an $\Lone$-norm improves the robustness of the method since it allows deviations from this assumption, which might occur in practice.
@@ -187,9 +216,9 @@ The \textbf{third term} of the energy \eqref{eq:TVterm} corresponds to the spati
 the correspondence basis coefficients $\bm{v}_i(\bx)$.
 This term penalizes spatial oscillations of each coefficient caused by distortions of the SVS images but not strong discontinuities that are desirable in the borders of different object regions. In addition, this term allows to fill in information into regions where the shape information in the SVS images is missing, due to e.g.~regions with no annotations.
 
-We implement the minimization of the energy $E_{sf}$ by using the optimization algorithm described in \cite{Garg:2013hu} \footnote{We used the publicly available code at \url{http://bitbucket.org/troussos/mfsf/}}.
-We slightly modify this algorithm so that, instead of initialising the coarse-to-fine and warping iterations with a zero flow, we use Thin Plate Splines (TPS) \cite{Bookstein1989} interpolation of the initial correspondence vectors described in Step~\ref{sec:step2}.
-This yields a significantly better initial location of the highly-nonconvex objective function and improves the computational efficiency, since much less coarse-to-fine pyramids are needed.
+We implement the minimization of the energy $E_{sf}$ by using the optimization algorithm described in \cite{Garg:2013hu}. For more details, please refer to the Supplementary Material.
+%We slightly modify this algorithm so that, instead of initialising the coarse-to-fine and warping iterations with a zero flow, we use Thin Plate %Splines (TPS) \cite{Bookstein1989} interpolation of the initial correspondence vectors described in Step~\ref{sec:step2}.
+%This yields a significantly better initial location of the highly-nonconvex objective function and improves the computational efficiency, since much less coarse-to-fine pyramids are needed.
 %
 Figure~\ref{fig:deformationfield} shows some examples of deformation fields derived from the estimated shape flow computed by the aforementioned method. These results correspond to exemplar training shapes in the case of an arm dataset. We observe that the shape flow estimation captures the shape and deformations of the human arm in a plausible way.
 
@@ -267,12 +296,7 @@ Figure~\ref{fig:deformationfield} shows some examples of deformation fields deri
 % \subsection{Dense and Patch-Based Active Appearance Models}
 
 
-\begin{figure}[b!]
-    \centering
-    \includegraphics[width=0.45\textwidth]{resources/models}
-    \caption{Exemplar dense shape models build for faces and ears. Dense shapes are presented as grid for better visualisation.}
-    \label{fig:dense_models}
-\end{figure}
+
 
 
 The deformation fields obtained from Step~\ref{sec:step3} can be used to naturally build two different kinds of effective Active Appearance Models (AAMs) \cite{Cootes2001, Matthews2004}: \emph{dense} \cite{ramnath2008increasing, Amberg2009, anderson2014using} and \emph{patch-based} \cite{Tzimiropoulos2014}. The only difference between these two AAM formulations is on the way that the shape is represented and, thus, the manner in which the texture is sampled. Each one of them is suitable for object classes with specific properties. The dense AAM provides an exceptionally effective modeling and fitting for non-articulated objects, such as ears and faces, whose appearance has characteristic structures that spread all over their region (even if these structures cannot be consistently annotated). On the other hand, there exist other challenging object classes, such as arms and legs, that not only cannot be consistently annotated with landmarks, but their appearance is distinctive only on the object's outline and not in its interior region. Especially in the case of human body parts, they are almost always covered by clothes, which makes it impossible to construct robust texture models.
