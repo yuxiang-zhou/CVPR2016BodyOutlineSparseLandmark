@@ -100,11 +100,11 @@ In addition, let $\Omega \subset \R^2$ be the image domain of the SVS images and
 \rightarrow \R^2$,  where $\bm{u}_n(\bx)$ is the displacement vector that matches the point $\bx$ of the reference SVS image with its corresponding location at the $n$-th training SVS image.
 
 Using the constructed correspondence basis, the shape flow can be approximated as:
-\vspace{-15pt}
+\vspace{-10pt}
 \begin{equation}\label{eq:LinTrajModel}
     \bm{u}_n(\bx) \approx
     \textstyle \, \sum_{i=1}^R \, \bm{q}_i(n)\bm{v}_i(\bx) \,\, ,
-    \vspace{-15pt}
+\vspace{-10pt}
 \end{equation}
 where $\bm{v}_i(\bx)$ is the weight that needs to be applied on the $i$-th correspondence basis element, in order to get the correspondence vector for the point location $\bm{x}$. In other words, the shape flow for every point $\bm{x}$ is described as a linear combination of basis elements that is controlled by the coefficients $\bm{v}_i(\bm{x})$.
 The values of the $i$-th coefficient for all the points $\bm{v}_i(\bm{x})$ can be interpreted as an image defined on $\Omega$. Using the correspondence basis, the determination of the shape flow boils down to the determination of the set of coefficients $\bm{v}_i(\bm{x})$. The above representation of shape flow, constrains the correspondence vectors to lie on a subspace and, therefore, acts as a low-rank prior that enforces coherency of the shape registration result over the whole training dataset of shapes.
@@ -154,32 +154,11 @@ To effectively build the correspondence basis, we first transform the original a
 
 \begin{figure}[b!]
     \centering
-    \includegraphics[width=0.4\textwidth]{resources/models}
-    \caption{Exemplar dense shape models build for faces and ears. Dense shapes are presented as grid for better visualisation.}
+    \includegraphics[width=0.35\textwidth]{resources/models}
+    \caption{Dense shape models build for faces and ears. Dense shapes are presented as grid for better visualisation.}
     \label{fig:dense_models}
 \end{figure}
 
-
-\begin{figure*}[t!]
-\begin{center}
- \begin{tabular}{ccc}
-\subfigure[]{
-    \newcommand{\flowh}{0.12\columnwidth}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/1}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/2}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/3}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/4}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/5}
-    \includegraphics[height=\flowh]{resources/Fig_Flows/6}
-} &
-\subfigure[]{
-    \includegraphics[width=0.2\textwidth]{resources/models}
-}
- \end{tabular}
-\end{center}
-\caption{(a) . (b) }
-\label{REC}
-\end{figure*}
 
 
 
@@ -208,8 +187,8 @@ E_{sf} & =\alpha
     &+
 \int_\Omega  \sum_{i=1}^R \,\, \left \|    \nabla \bm{v}_i(\bx)    \right \|  \,\ud \bx \label{eq:TVterm}
 \end{align}
-This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior. 
-%We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$. 
+This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior.
+%We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$.
 The positive parameters $\alpha$ and $\beta$ weigh the balance between the terms of the energy.
 
 The \textbf{first term} of the above energy \eqref{eq:costfunc} is a data attachment term
