@@ -41,19 +41,23 @@ There are significant numbers of datasets exist for human pose estimation, where
     \label{fig:variance}
 \end{figure}
 
-The training of dense Active Appearance Models (dAAMs) for upper body involves manual outline annotation from a combination of datasets, including H3D\cite{PoseletsICCV09}, Microsoft COCO\cite{lin2014microsoft}, MPII\cite{andriluka14cvpr}, Fashion Pose\cite{dantone2013human}, FLIC\cite{sapp2013modec} and BBC Poses\cite{pfister2015flowing}. The training set contains 891 training images from where 500 are annotated with outline manually. A dAAMs is built from 500 training images thereby produces dense correspondences for generating sparse outline annotation (29 landmarks). A Patch AAM is build from sparse annotations before fitting to 391 images. Manual minor correction are required for putting those fitted image to training set. The final Patch AAM is built from 891 images and validated on validation set given by BBC Pose.
+The training of dense Active Appearance Models (dAAMs) for upper body involves manual outline annotation from a combination of datasets, including H3D \cite{PoseletsICCV09}, Microsoft COCO \cite{lin2014microsoft}, MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. The training set contains 891 training images from where 500 are annotated with outline manually. A dAAMs is built from 500 training images thereby produces dense correspondences for generating sparse outline annotation (29 landmarks). A Patch AAM is build from sparse annotations before fitting to 391 images. Manual minor correction are required for putting those fitted image to training set. The final Patch AAM is built from 891 images and validated on validation set given by BBC Pose.
 
 In order to compare with current state-of-the-art human pose estimation on BBC Pose, we uses same error metric as BBC Poses does, which normalises testing images to have height of 256 pixels. Performance measure of experiments in this paper are plot with Cumulative Error Distribution (CED) curve, where graph shows accuracy against distance from ground truth in pixels on normalised images.
 
 \subsection{Arm Pose Estimation}
 \label{exp:benchmark}
-This experiment presented the accuracy of predicting joints positions from establishing dense correspondences with outline fitting. We build Patch AAM using 891 training hand images from a combination of datasets, where each image has 29 landmarks annotated alone its boundary. Dense Scale-Invariant Feature Transform (SIFT)\cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting is initialised based on current state-of-the-art human pose estimation algorithms on BBC Pose dataset. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method.
+Two experiments are undertaken in this section: 1) presenting training classic patch AAM from outline annotation provides remarkable joints estimation; 2) supporting outline annotation by comparing with training classic patch AAM from joint annotation .
 
-Cumulative Error Distributions (CED) for this experiment are shown in Figure \ref{fig:hand_benchmark} while fitting statistics are shown in supplementary material. Results show that, for this experiment, the fitting accuracy achieved by our method outperformed current state-of-the-art algorithms. In particular, our method improves performance of current best method \cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation. 
+First experiment presented the accuracy of predicting joints positions from establishing dense correspondences with outline fitting. We build patch AAM using 891 training hand images from a combination of datasets, where each image has 29 landmarks annotated alone its boundary. SIFT \cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting is initialised based on current state-of-the-art human pose estimation algorithms on BBC Pose dataset. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method.
+
+Second experiment investigates the disadvantages of using skeleton annotation. We build patch AAM on joints with same training data and with SIFT representation. Both models are fine-tuned on BBC Pose validation set. The fitting procedure is performed under exactly same condition, e.g. same testing set and initialisation position. 
+
+CED Curves for both experiments are shown in Figure \ref{fig:hand_benchmark} while fitting statistics are shown in supplementary material. Results show that, for first experiment, the fitting accuracy achieved by our method outperformed current state-of-the-art algorithms. In particular, our method improves performance of current best method \cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation. While for second experiment, patch AAM trained with outline significantly outperforms path AAM trained with joints as we expected. Note that path AMM trained with Joints still comparable even marginally better than recent algorithms.
 
 \begin{figure}[b!]
     \centering
-    \includegraphics[width=\columnwidth]{resources/HandBenchmark/wrist}
+    \includegraphics[width=\columnwidth]{resources/HandBenchmark/legend}
     \\
     \includegraphics[width=0.48\columnwidth]{resources/HandBenchmark/wrist}
     \includegraphics[width=0.48\columnwidth]{resources/HandBenchmark/elbow}
@@ -87,7 +91,7 @@ Cumulative Error Distributions (CED) for this experiment are shown in Figure \re
 
 
 \subsection{Non-rigid Object Alignment In-the-wild}
-\label{exp:internal}
+\label{exp:daam_benchmark}
 \begin{figure}[b!]
     \centering
     \begin{subfigure}[b]{0.23\textwidth}
@@ -97,7 +101,7 @@ Cumulative Error Distributions (CED) for this experiment are shown in Figure \re
     \begin{subfigure}[b]{0.23\textwidth}
             \includegraphics[width=\textwidth]{resources/DAAMBenchmark/ear}
     \end{subfigure}
-    \caption{CEDs over skeleton landmarks on BBC Pose database for experiment \ref{exp:benchmark}}
+    \caption{CEDs over skeleton landmarks on BBC Pose database for experiment \ref{exp:daam_benchmark}}
     \label{fig:daam_benchmark}
 \end{figure}
 
