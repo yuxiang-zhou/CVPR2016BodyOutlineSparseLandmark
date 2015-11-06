@@ -188,7 +188,7 @@ E_{sf} & =\alpha
 \end{align}
 This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior. 
 %We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$. 
-The positive parameters $\alpha$ and $\beta$ weigh the balance between the terms of the energy.
+%The positive parameters $\alpha$ and $\beta$ weigh the balance between the terms of the energy.
 
 The \textbf{first term} of the above energy \eqref{eq:costfunc} is a data attachment term
 that uses the robust $\Lone$-norm.  It is based on the assumption that the values of the reference SVS image $\bm{d}_0(\bx)$ at every pixel $\bx$ are preserved at its corresponding locations on all training SVS images $\bm{d}_n(\bx)$. The use of an $\Lone$-norm improves the robustness of the method since it allows deviations from this assumption, which might occur in practice.
