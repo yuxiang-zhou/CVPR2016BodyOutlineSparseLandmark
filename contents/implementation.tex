@@ -100,11 +100,11 @@ In addition, let $\Omega \subset \R^2$ be the image domain of the SVS images and
 \rightarrow \R^2$,  where $\bm{u}_n(\bx)$ is the displacement vector that matches the point $\bx$ of the reference SVS image with its corresponding location at the $n$-th training SVS image.
 
 Using the constructed correspondence basis, the shape flow can be approximated as:
-\vspace{-10pt}
+\vspace{-5pt}
 \begin{equation}\label{eq:LinTrajModel}
     \bm{u}_n(\bx) \approx
     \textstyle \, \sum_{i=1}^R \, \bm{q}_i(n)\bm{v}_i(\bx) \,\, ,
-\vspace{-10pt}
+\vspace{-5pt}
 \end{equation}
 where $\bm{v}_i(\bx)$ is the weight that needs to be applied on the $i$-th correspondence basis element, in order to get the correspondence vector for the point location $\bm{x}$. In other words, the shape flow for every point $\bm{x}$ is described as a linear combination of basis elements that is controlled by the coefficients $\bm{v}_i(\bm{x})$.
 The values of the $i$-th coefficient for all the points $\bm{v}_i(\bm{x})$ can be interpreted as an image defined on $\Omega$. Using the correspondence basis, the determination of the shape flow boils down to the determination of the set of coefficients $\bm{v}_i(\bm{x})$. The above representation of shape flow, constrains the correspondence vectors to lie on a subspace and, therefore, acts as a low-rank prior that enforces coherency of the shape registration result over the whole training dataset of shapes.
@@ -179,13 +179,14 @@ As already mentioned, our shape flow estimation builds upon robust methods for m
 
 
 Let $\bm{d}(\bx;n)$, $\bm{d}(\bx;0):\Omega\rightarrow \R^{N_c}$ be the $n$-th training SVS image and the reference SVS image respectively. Following \cite{Garg:2013hu}, we propose to estimate the shape flow over all training images by minimizing the following energy:
-\vspace{-15pt}
+\vspace{-5pt}
 \begin{align}
 E_{sf} & =\alpha
 \int_{\Omega}\sum_{n=1}^{N_t} \|\bm{d}(\bx+\bm{u}_n(x);n)-\bm{d}(x;0)\| \ud \bx \label{eq:costfunc}\\
     &+ \beta \int_{\Omega}\sum_{n=1}^{N_t}\|\bm{u}_n(\bx)-\sum_{i=1}^R\bm{q}_i(n)\bm{v}_i(\bx)\|^2 \ud \bx \label{eq:lowrank}\\
     &+
 \int_\Omega  \sum_{i=1}^R \,\, \left \|    \nabla \bm{v}_i(\bx)    \right \|  \,\ud \bx \label{eq:TVterm}
+\vspace{-5pt}
 \end{align}
 This energy consists of two sets of unknown shape flows that are relatively close to each other: (i) $\bm{u}_n(x)$ which tries to explain the data from the input SVS images, and (ii) the shape flow determined by the correspondence basis coefficients $\bm{v}_i(\bx)$ that are spatially regularised and enforce a low-rank prior.
 %We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$.
@@ -304,7 +305,6 @@ Given a test image $\mathbf{I}$, the fitting process involves the minimisation o
 	\label{eq:aam_cost}
 \end{equation}
 This optimisation problem is typically solved using the inverse-compositional Gauss-Newton algorithm, for which different variations have been proposed \cite{Matthews2004, Papandreou2008, Amberg2009, Tzimiropoulos2013, Alabort2014}. Note that the existence of the sampling function $\mathcal{W}()$ instead of a non-linear warping function has the advantage that all existing efficient gradient descent algorithms become exact.
-
 
 \paragraph{Outline Patch-Based Active Appearance Model} The object classes for which the interior appearance does not have specific structure are modeled using patch-based AAMs \cite{Tzimiropoulos2014} trained on a set of sparse landmarks. Especially for human body parts (arms, legs), we strongly believe that the points located to the outline of the object are more suitable compared to the internal ones that correspond to the skeleton joints, which are commonly used by current literature \cite{buehler2011upper,charles2013domain,pfister2015flowing,yang2013articulated}.
 
