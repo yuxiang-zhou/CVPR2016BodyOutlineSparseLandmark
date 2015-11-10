@@ -2,7 +2,7 @@
 
 % \iccvfinalcopy % *** Uncomment this line for the final submission
 
-\input{iccv_setting}
+\input{cvpr_setting}
 
 \begin{document}
 
@@ -37,7 +37,7 @@ Figure \ref{fig:fr} shows dense fitting results using a grid visualisation, thus
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.5\textwidth]{supports/Fittings/fittings}
+\includegraphics[width=0.5\textwidth]{Supplementory_Meterial/Fittings/fittings}
 \caption{Result of fitting dAAMs on ears (first two rows) and faces (last two rows). A dense grid visualisation is used.}
 \label{fig:fr}
 \end{figure}
@@ -52,12 +52,12 @@ Figure \ref{fig:fr} shows dense fitting results using a grid visualisation, thus
     \centering
     % \vspace*{-0.1in}
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{supports/Model_Analysis/sr_ear}
+            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/sr_ear}
         %\caption{dAAMs dense shape reconstruction}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{supports/Model_Analysis/sr_face}
+            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/sr_face}
         %\caption{AAMs dense shape reconstruction}
     \end{subfigure}
     \caption{Dense shape reconstruction errors for ears and faces. Top: results of reconstruction on ears, bottom: results of reconstruction on faces. The normalised point-to-point error is used an evaluation measure.}
@@ -74,11 +74,11 @@ Figure \ref{fig:compact} demonstrates the variance explained as a function of th
 \begin{figure}[!t]
     \centering
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{supports/Model_Analysis/var_ratio}
+            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/var_ratio}
         %\caption{dAAMs vs AAMs Variance Ratio}
     \end{subfigure}
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{supports/Model_Analysis/cumu_var_ratio}
+            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/cumu_var_ratio}
         %\caption{dAAMs vs AAMs Cumulative Variance Ratio}
     \end{subfigure}
     \caption{Variance explained by each principal component, for both dAAM and AAM models. Top: variance explained by each principal component. Bottom: cumulative plot of the variance explained as a function of the principal components.}
@@ -89,7 +89,7 @@ Finally, Figure \ref{fig:pcamodel} visualises the principal components of dAAMs 
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{supports/Models/models}
+\includegraphics[width=\textwidth]{Supplementory_Meterial/Models/models}
 \caption{Principal components of dAAMs built on ears (top) and faces (bottom). The mean (middle columns) as well as the first five principal components are visualised for both shape (left) and appearance (right). $\pm 3$ times the variance of the corresponding component is used in each case.}
 \label{fig:pcamodel}
 \end{figure*}
@@ -103,7 +103,7 @@ Finally, Figure \ref{fig:pcamodel} visualises the principal components of dAAMs 
 \begin{figure}[!b]
     \centering
     %\vspace*{-0.2in}
-    \includegraphics[width=0.5\textwidth]{resources/Fig_Draw/draw}
+    \includegraphics[width=0.5\textwidth]{Supplementory_Meterial/Fig_Draw/draw}
     \caption{Synthesizing face images from caricature sketches. First column: caricature sketches. Second column: arbitrary chosen face images. Third and last column: sketch-based warping of images based on AAMs (third column) and dAAMs (last column).}
     \label{fig:draw}
 \end{figure}
@@ -120,15 +120,15 @@ In this section, we present experiments of utilising our dense AAM for object se
 \begin{figure}[!t]
     \centering
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{supports/Segmentation_Measure/ear}
+            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/ear}
         %\caption{Ear Initial Bounding Box}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{supports/Segmentation_Measure/bottle}
+            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/bottle}
         %\caption{Bottle Initial Bounding Box}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{supports/Segmentation_Measure/body}
+            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/body}
         %\caption{Body Initial Bounding Box}
     \end{subfigure}
     \caption{Examples of fitting initialisations used for the segmentation experiment. These are created by random perturbation of the ground-truth bounding box.}
