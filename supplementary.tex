@@ -19,9 +19,9 @@ Imperial College London\\
 
 %%%%%%%%% Appendix
 \section*{Introduction}
-In this supplementary material, we provide additional experimental results and comparisons for the proposed pipeline of constructing dense AAMs without consistent set of landmarks. 
-We present four different sets of experiments. 
-In Section \ref{sec:fittingresults}, we present visualisations of in-the-wild model fitting  for faces and ears, comparing classic AAMs and the proposed dense AAMs. In Section \ref{sec:modelanalysis}, we provide evaluations and comparisons of dAAMs, in terms of model compactness, warping quality and reconstruction accuracy. 
+In this supplementary material, we provide additional experimental results and comparisons for the proposed pipeline of constructing dense AAMs without consistent set of landmarks.
+We present four different sets of experiments.
+In Section \ref{sec:fittingresults}, we present visualisations of in-the-wild model fitting  for faces and ears, comparing classic AAMs and the proposed dense AAMs. In Section \ref{sec:modelanalysis}, we provide evaluations and comparisons of dAAMs, in terms of model compactness, warping quality and reconstruction accuracy.
 Moreover, Section \ref{sec:reconstruct} serves as a qualitative demonstration of how the proposed pipeline can be used to effectively generate novel modified instances of an object, such as caricatures, from simple hand drawn sketches.
 Finally, in Section \ref{sec:segmentation}, we evaluate the application of the proposed methodology on the problem of segmenting objects that are difficult to annotate with a consistent set of landmarks, such as bottles and human bodies.
 
@@ -30,14 +30,14 @@ Finally, in Section \ref{sec:segmentation}, we evaluate the application of the p
 \label{sec:fittingresults}
 
 This section provides additional visualisations for the experiments of Section 3.3 of the main submission (Non-rigid object alignment in-the-wild). We visualise pixel-wise dense fitting results for both faces and ears. Results for this experiment of faces are reported over the 224 testing images of the LFPW database using 68 point ground truth landmark annotations
-\footnote{\label{ibug_300} \url{http://ibug.doc.ic.ac.uk/resources/300-W/}}. 
+\footnote{\label{ibug_300} \url{http://ibug.doc.ic.ac.uk/resources/300-W/}}.
 For ears, we collected 605 high resolution images of ears in unconstrained scenarios and annotated them using both a newly defined 55 point annotation scheme for ears and the curve annotations proposed in the paper. Results for fitting ears are reported over 105 testing images.
 
 Figure \ref{fig:fr} shows dense fitting results using a grid visualisation, thus dense points are visible without affecting the visibility of appearance.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.5\textwidth]{Supplementory_Meterial/Fittings/fittings}
+\includegraphics[width=0.5\textwidth]{Suplementory_Meterial/Fittings/fittings}
 \caption{Result of fitting dAAMs on ears (first two rows) and faces (last two rows). A dense grid visualisation is used.}
 \label{fig:fr}
 \end{figure}
@@ -52,12 +52,12 @@ Figure \ref{fig:fr} shows dense fitting results using a grid visualisation, thus
     \centering
     % \vspace*{-0.1in}
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/sr_ear}
+            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/sr_ear}
         %\caption{dAAMs dense shape reconstruction}
     \end{subfigure}
     \\
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/sr_face}
+            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/sr_face}
         %\caption{AAMs dense shape reconstruction}
     \end{subfigure}
     \caption{Dense shape reconstruction errors for ears and faces. Top: results of reconstruction on ears, bottom: results of reconstruction on faces. The normalised point-to-point error is used an evaluation measure.}
@@ -65,20 +65,20 @@ Figure \ref{fig:fr} shows dense fitting results using a grid visualisation, thus
 \end{figure}
 
 
-We first investigate the reconstruction accuracy of AAMs and dAAMs in the shape space. In particular, given a ground-truth shape, we use the shape models from both AAMs and dAAMs to reconstruct the given shape densely. Since AAMs contain a sparse shape model, we densify it using a piecewise affine transformation, which is typically used in warping textures on to shape model too. Figure \ref{fig:rc_face} shows plots of dense shape reconstruction errors for ears and faces, for varying number of principal components kept. We observe that dAAMs significantly outperform classic AAMs on shape reconstruction. 
+We first investigate the reconstruction accuracy of AAMs and dAAMs in the shape space. In particular, given a ground-truth shape, we use the shape models from both AAMs and dAAMs to reconstruct the given shape densely. Since AAMs contain a sparse shape model, we densify it using a piecewise affine transformation, which is typically used in warping textures on to shape model too. Figure \ref{fig:rc_face} shows plots of dense shape reconstruction errors for ears and faces, for varying number of principal components kept. We observe that dAAMs significantly outperform classic AAMs on shape reconstruction.
 
 
-Furthermore, we explore the compactness of the built AAMs and dAAMs models. 
+Furthermore, we explore the compactness of the built AAMs and dAAMs models.
 Figure \ref{fig:compact} demonstrates the variance explained as a function of the number of principal components. One can infer that dAAMs have a more compact shape model than AAMs, which leads to better reconstruction especially with few shape components.
 
 \begin{figure}[!t]
     \centering
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/var_ratio}
+            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/var_ratio}
         %\caption{dAAMs vs AAMs Variance Ratio}
     \end{subfigure}
     \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Supplementory_Meterial/Model_Analysis/cumu_var_ratio}
+            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/cumu_var_ratio}
         %\caption{dAAMs vs AAMs Cumulative Variance Ratio}
     \end{subfigure}
     \caption{Variance explained by each principal component, for both dAAM and AAM models. Top: variance explained by each principal component. Bottom: cumulative plot of the variance explained as a function of the principal components.}
@@ -89,7 +89,7 @@ Finally, Figure \ref{fig:pcamodel} visualises the principal components of dAAMs 
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{Supplementory_Meterial/Models/models}
+\includegraphics[width=\textwidth]{Suplementory_Meterial/Models/models}
 \caption{Principal components of dAAMs built on ears (top) and faces (bottom). The mean (middle columns) as well as the first five principal components are visualised for both shape (left) and appearance (right). $\pm 3$ times the variance of the corresponding component is used in each case.}
 \label{fig:pcamodel}
 \end{figure*}
@@ -103,7 +103,7 @@ Finally, Figure \ref{fig:pcamodel} visualises the principal components of dAAMs 
 \begin{figure}[!b]
     \centering
     %\vspace*{-0.2in}
-    \includegraphics[width=0.5\textwidth]{Supplementory_Meterial/Fig_Draw/draw}
+    \includegraphics[width=0.5\textwidth]{Suplementory_Meterial/Fig_Draw/draw}
     \caption{Synthesizing face images from caricature sketches. First column: caricature sketches. Second column: arbitrary chosen face images. Third and last column: sketch-based warping of images based on AAMs (third column) and dAAMs (last column).}
     \label{fig:draw}
 \end{figure}
@@ -115,20 +115,20 @@ In this qualitative experiment, we show how the proposed pipeline can be used to
 \section{Segmentation using Dense AAM}
 \label{sec:segmentation}
 
-In this section, we present experiments of utilising our dense AAM for object segmentation. Two object classes, bottles and human bodies, are considered. For human bodies, we use images along with ground truth segmentation from Space-Time Actions dataset \footnote{\label{sta} \url{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}}, which includes sequences with several human actions. We use ``jumping'' and ``sliding'' actions. As far as bottles are concerned, we use 500 high-resolution images that we collected and annotated using a newly-defined 50 point annotation scheme, as well as the curve annotations proposed in this paper. We randomly split these images into two disjoint sets of training (400) and testing (100) images. Bottle models were built using 400 training images while body models are built in terms of human actions (e.g. jumping), each having approximately 200 training images and 50 test images. 
+In this section, we present experiments of utilising our dense AAM for object segmentation. Two object classes, bottles and human bodies, are considered. For human bodies, we use images along with ground truth segmentation from Space-Time Actions dataset \footnote{\label{sta} \url{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}}, which includes sequences with several human actions. We use ``jumping'' and ``sliding'' actions. As far as bottles are concerned, we use 500 high-resolution images that we collected and annotated using a newly-defined 50 point annotation scheme, as well as the curve annotations proposed in this paper. We randomly split these images into two disjoint sets of training (400) and testing (100) images. Bottle models were built using 400 training images while body models are built in terms of human actions (e.g. jumping), each having approximately 200 training images and 50 test images.
 
 \begin{figure}[!t]
     \centering
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/ear}
+            \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/ear}
         %\caption{Ear Initial Bounding Box}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/bottle}
+            \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/bottle}
         %\caption{Bottle Initial Bounding Box}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-            \includegraphics[height=\textwidth]{Supplementory_Meterial/Segmentation_Measure/body}
+            \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/body}
         %\caption{Body Initial Bounding Box}
     \end{subfigure}
     \caption{Examples of fitting initialisations used for the segmentation experiment. These are created by random perturbation of the ground-truth bounding box.}
