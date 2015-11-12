@@ -170,13 +170,47 @@ As \emph{step 4} in main paper refers, patch-based AAM are suitable for fitting 
 \subsection{Patch-based AAM Shape Model}
 \label{sec:paam_sm}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{Suplementory_Meterial/HandSMPAAM/handsmpaam}
+\caption{Demonstration of shape model of patch-based AAM.}
+\label{fig:paam_sm}
+\end{figure}
+
 Figure~\ref{fig:paam_sm} shows mean shape and corresponding \pm 3 variation on first 4 principle components.
 
 
 \subsection{Fitting Results}
 \label{sec:paam_fittingresults}
 
-Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms datasets including MPII, FLIC, Fashion Pose and BBC Pose.
+
+
+
+\begin{table}[b!]
+    \small
+    \centering
+    \begin{tabular}{|l|c|c|c||c|c|c|}
+        \hline
+                            & \multicolumn{3}{c||}{Wrist} & \multicolumn{3}{c|}{Elbow}\\
+        \hline
+        \emph{Method}       & \emph{mean} & \emph{std} & $\leq 6pt$ & \emph{mean} & \emph{std} & $\leq 6pt$\\
+        \hline\hline
+        Buehler             & 12.08    & 19.94        & 44.5\%       & 12.94    & 14.65        & 34.4\%\\
+        Charles14           & 11.81    & 20.89        & 54.2\%       &  8.30    & 11.00        & \textbf{55.2\%}\\
+        Charles13           & 13.78    & 22.39        & 43.3\%       & 13.17    & 18.74        & 46.3\%\\
+        Pfister14           & 14.69    & 17.89        & 29.7\%       & 14.60    & 10.59        & 14.0\%\\
+        Ramanan             & 15.59    & 19.04        & 22.6\%       & 15.53    & 10.82        & 15.8\%\\
+        Pfister15           & 7.62     & 11.04        & 54.1\%       &  8.84    & 11.44        & 54.9\%\\
+        \hline\hline
+        Ours                & \textbf{6.71}& \textbf{10.90}   & \textbf{63.1\%}       & \textbf{8.20}     &  \textbf{10.54}        & 52.1\%\\
+        \hline
+    \end{tabular}
+    \caption{Fitting statistics on BBC Pose database for experiment \ref{exp:benchmark}}
+    \label{tab:hand_benchmark}
+\end{table}
+    
+Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms datasets including MPII, FLIC, Fashion Pose and BBC Pose. And table~\ref{}
+
 
 \end{document}
 
