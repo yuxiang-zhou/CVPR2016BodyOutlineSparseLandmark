@@ -242,9 +242,8 @@ Finally, Figure \ref{fig:pcamodel} visualises the principal components of dAAMs 
     \includegraphics[height=\ofh]{Suplementory_Meterial/ExFit/0043.eps}
     \hfill
     \includegraphics[height=\ofh]{Suplementory_Meterial/ExFit/0044.eps}
-    
-    \caption{Demonstration of outline fitting of patch-based AAM on arms.}
-    \label{fig:outline_fitting}
+    \caption{Demonstration of outline fitting of patch-based AAM on arms. Images are cropped to arms only for better visualisation.}
+    \label{fig:paam_fittingresults}
 \end{figure*}
 
 This section shows spares annotation of densely corespondent shapes are generated, since patch-based AMM support consistent parse annotation only in section~\ref{sec:sparsesample}. Also, shape model visualisation of build patch-based AMM are shown in section~\ref{sec:paam_sm}, as well as corresponding fitting result visualisation are shown in section~\ref{sec:paam_fittingresults}.
@@ -253,32 +252,42 @@ This section shows spares annotation of densely corespondent shapes are generate
 \subsection{Subsampling Sparse Outline from Dense Correspondent Shapes}
 \label{sec:sparsesample}
 
-\begin{figure}[!t]
+\begin{figure}[!b]
 \centering
-\includegraphics[width=0.3\columnwidth]{Suplementory_Meterial/dsg}
-\caption{Demonstration of sparse sampling from dense shape.}
+\newcommand{\ofh}{0.24\columnwidth}
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-0.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-1.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-2.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-3.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-4.png}
+\caption{Demonstration of sparse sampling from dense shapes. Left most image shows sparse sample on the reference shape while other 5 images shows projection from sampled reference shape to arbitrary shapes with dense correspondence.}
 \label{fig:sparsesample}
 \end{figure}
 
-As \emph{step 4} in main paper refers, patch-based AAM are suitable for fitting objects that interior appearance having no structure, in this case e.g. arms. But patch-based AAM require consistent sparse annotation. So a sub-sampling step is need to meet such criteria. As we built dense correspondence between shapes, we only sparsely annotation one shape then rest shapes are sub-sampled automatically since sparse samples are preserved in all shapes by dense correspondent. Figure~\ref{fig:fig:sparsesample} shows sparse annotation (blue dots) on dense mean shape (grid visualisation used for visibility) and exemplar projected samples on other shapes.
+As \emph{step 4} in main paper refers, patch-based AAM are suitable for fitting objects that interior appearance having no structure, in this case e.g. arms. But patch-based AAM require consistent sparse annotation. So a sub-sampling step is needed to meet such criteria. As we built dense correspondence between shapes, we only sparsely annotate one shape so rest shapes are sub-sampled automatically since sparse samples are preserved in all shapes by dense correspondence generated with shape flow. Figure~\ref{fig:sparsesample} shows sparse annotation (red dots) on dense mean shape (grid visualisation used for visibility) and exemplar projected samples on other shapes.
 
 \subsection{Patch-based AAM Shape Model}
 \label{sec:paam_sm}
 
-\begin{figure}[!t]
+\begin{figure}[!b]
 \centering
 \includegraphics[width=\columnwidth]{Suplementory_Meterial/HandSMPAAM/handsmpaam}
-\caption{Demonstration of shape model of patch-based AAM.}
+\caption{Principal components of patch-based AAM built on arms.  The mean (left most column) as well asthe first four principal components are visualised with three times the variance of the corresponding component it used in each case.}
 \label{fig:paam_sm}
 \end{figure}
 
-Figure~\ref{fig:paam_sm} shows mean shape and corresponding $\pm 3$ variation on first 4 principle components.
+Figure~\ref{fig:paam_sm} shows mean shape and corresponding $\pm 3$ variation on first four principle components. As the appearance model are built with SIFT feature, the 36-channel feature give no meaningful visualisation to human so we have not shown it. From arms shape model, we observe that the variation of shape captured by the model are reasonable.
 
 \subsection{Fitting Results}
 \label{sec:paam_fittingresults}
 
-
-\begin{table}[b!]
+\begin{table}[t!]
     \small
     \centering
     \begin{tabular}{|l|c|c|c||c|c|c|}
@@ -297,11 +306,19 @@ Figure~\ref{fig:paam_sm} shows mean shape and corresponding $\pm 3$ variation on
         Ours                & \textbf{6.71}& \textbf{10.90}   & \textbf{63.1\%}       & \textbf{8.20}     &  \textbf{10.54}        & 52.1\%\\
         \hline
     \end{tabular}
-    \caption{Fitting statistics on BBC Pose database for experiment \ref{exp:benchmark}}
+    \caption{Fitting statistics on BBC Pose database for experiment 4.2 in main paper.}
     \label{tab:hand_benchmark}
 \end{table}
     
-Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms datasets including MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. In addition table~\ref{tab:hand_benchmark} presents statistics results that refers to experiment 4.2 in main paper for additional information. 
+Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms datasets including MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. All fittings are initialised using same method as mention in experiment 4.2 in main paper.
+
+In addition table~\ref{tab:hand_benchmark} presents statistics results that refers to experiment 4.2 in main paper for additional information. Column $\leq 6pt$ reports the percentage of fittings that having errors, point-to-point distance on normalised images, less than 6 pixels (same measurement used in \cite{pfister2015flowing}). This shows we have notable improvement on estimating wrists and comparable results on estimating elbow.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{bib}
+}
+
 
 \end{document}
 
@@ -368,8 +385,3 @@ Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced 
 % \caption{Segmentation precision, in case of fitting bottles and human bodies by adopting the proposed dAAMs pipeline. The mean, standard deviation and median of the precision error are provided.}
 % \label{tab:seg_result}
 % \end{table}
-
-{\small
-\bibliographystyle{ieee}
-\bibliography{bib}
-}
