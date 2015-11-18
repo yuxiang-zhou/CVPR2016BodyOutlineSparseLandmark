@@ -12,10 +12,17 @@
 \maketitle
 \thispagestyle{empty}
 
+\begin{figure*}[!b]
+\centering
+\includegraphics[width=\textwidth]{Suplementory_Meterial/Models/models}
+\caption{Principal components of dAAMs built on ears (top) and faces (bottom). The mean (middle columns) as well as the first five principal components are visualised for both shape (left) and appearance (right). $\pm 3$ times the variance of the corresponding component is used in each case.}
+\label{fig:pcamodel}
+\end{figure*}
+
 
 %%%%%%%%% Appendix
 \section*{Introduction}
-In this supplementary material, we provide additional algorithmic details for our shape flow estimation, as well as additional visualizations and evaluations for the dense and patch-based AAMs that were constructed using the proposed framework.
+In this supplementary material, we provide additional algorithmic details for our shape flow estimation, as well as additional visualisations and evaluations for the dense and patch-based AAMs that were constructed using the proposed framework.
 
 %experimental evaluations for constructing both Dense AAMs and Patch-based AAMs using the proposed pipeline.
 %For \textbf{Dense AAM}, We present more detailed algorithms explanation and intrinsic property analysis of Dense AAMs. In section~\ref{sec:cost_function},  minimisation of the energy function are described in more details. In Section \ref{sec:daam_fittingresults}, we present visualisations of in-the-wild model fitting  for faces and ears, comparing classic AAMs and the proposed dense AAMs. In Section \ref{sec:modelanalysis}, we provide evaluations and comparisons of dAAMs, in terms of model compactness, warping quality and reconstruction accuracy.
@@ -27,7 +34,8 @@ In this supplementary material, we provide additional algorithmic details for ou
 \section{Implementation of Shape Flow Estimation}
 \label{sec:cost_function}
 
-As mentioned in the main submission (Section 3, Step 3), we propose to estimate the shape flow by minimizing the following energy:
+
+As mentioned in the main submission (Section 3, Step 3), we propose to estimate the shape flow by minimising the following energy:
 \vspace{-5pt}
 \begin{align}
 E_{sf} & =\alpha
@@ -37,21 +45,18 @@ E_{sf} & =\alpha
 \int_\Omega  \sum_{i=1}^R \,\, \left \|    \nabla \bm{v}_i(\bx)    \right \|  \,\ud \bx \label{eq:TVterm}
 \vspace{-5pt}
 \end{align}
-We minimize this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$, which correspond to the
+We minimise this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$, which correspond to the
 two sets of unknown shape flows.
-We implement this minimization based on the optimization algorithm described in \cite{Garg:2013hu} and the relevant publicly available code \footnote{https://bitbucket.org/troussos/mfsf/downloads}.
+We implement this minimisation based on the optimisation algorithm described in \cite{Garg:2013hu} and the relevant publicly available code \footnote{https://bitbucket.org/troussos/mfsf/downloads}.
 However, we modify this algorithm so that, instead of initialising the coarse-to-fine and warping iterations with a zero flow, we use Thin Plate Splines (TPS) \cite{Bookstein1989} interpolation of the initial correspondence vectors described in Section 3, Step 2 of the main submission.
 This yields a significantly better initial location of the highly-nonconvex objective function and improves the computational efficiency, since much less coarse-to-fine pyramids are needed.
 
-Regarding more details on the optimization algorithm, 
-in every coarse-to-fine and warping iteration, we use an initialization that comes from the previous iteration. We approximate the data term \eqref{eq:costfunc} by linearizing the SVS images $\bm{d}(\bx;n)$ around the initialization. After that, the energy becomes convex and we optimize it using alternating optimization w.r.t.~$\bm{v}_i(\bx)$ and $\bm{u}_n(\bx)$. The minimization w.r.t.~$\bm{v}_i(\bx)$ is decoupled for every coefficient $i$ and corresponds to Rudin-Osher-Fatemi Total Variation denoising \cite{rudin92}, which we solve efficiently by applying the first order primal-dual algorithm of \cite{Chambolle:Pock:JMIV2011}. The minimization w.r.t.~$\bm{u}_n(x)$ is decoupled for every pixel $\bx$ and every shape index $i$. This minimization is also implemented by applying the efficient primal-dual algorithm of \cite{Chambolle:Pock:JMIV2011}.
+Note that in every coarse-to-fine and warping iteration, we use an initialisation that comes from the previous iteration. We approximate the data term \eqref{eq:costfunc} by linearising the SVS images $\bm{d}(\bx;n)$ around the initialisation. After that, the energy becomes convex and we optimise it by employing alternating optimisation with respect to $\bm{v}_i(\bx)$ and $\bm{u}_n(\bx)$. The minimisation with respect to $\bm{v}_i(\bx)$ is decoupled for every coefficient $i$ and corresponds to Rudin-Osher-Fatemi Total Variation denoising~\cite{rudin92}, which we solve efficiently by applying the first order primal-dual algorithm of~\cite{Chambolle:Pock:JMIV2011}. The minimisation with respect to $\bm{u}_n(x)$ is decoupled for every pixel $\bx$ and every shape index $i$. This minimisation is also implemented by applying the efficient primal-dual algorithm of~\cite{Chambolle:Pock:JMIV2011}.
 
-
-
-\section{Dense Active Appearance Modeling}
+\section{Dense Active Appearance Models}
 \label{sec:daam}
 
-In this section, we report additional qualitative and quantitative evaluations and comparisons for the dAAMs of faces and ears that were constructed using the proposed framework.
+In this section, we report additional qualitative and quantitative evaluations for the Dense Active Appearance Models (dAAMs) of faces and ears that were constructed using the proposed framework.
 
 
 
@@ -59,136 +64,39 @@ In this section, we report additional qualitative and quantitative evaluations a
 
 
 
-Figure \ref{fig:pcamodel} visualizes some of the shape and appearance principal components of the built dAAMs for ears and faces. We observe that in both ears and faces, the variation of both shape and appearance captured by the model seem plausible.
+Figure~\ref{fig:pcamodel} visualises the first five shape and appearance principal components of ear and face dAAMs. We observe that in both ear and face cases, the variation of both shape and appearance captured by the model seem plausible.
 
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=\textwidth]{Suplementory_Meterial/Models/models}
-\caption{Principal components of dAAMs built on ears (top) and faces (bottom). The mean (middle columns) as well as the first five principal components are visualised for both shape (left) and appearance (right). $\pm 3$ times the variance of the corresponding component is used in each case.}
-\label{fig:pcamodel}
-\end{figure*}
+Figure~\ref{fig:compact} pliots the variance ration of the face dAAM, which provides an indication of the compactness of the model. The compactness is compared with the one of a standard sparse AAM built on the same data. Note that these are the two shape models that are compared in Figure 9-left of the main paper. We observe that our dAAM is significantly more compact than the sparse AAM, since for any given number of components, it manages to explain a larger portion of the corresponding total variance of the training set. 
 
 
-Figure \ref{fig:compact} shows the compactness plot for our dAAM for faces and compares it with the corresponding plot for a standard sparse AAM built on the same data. Note that these are the two shape models that are compared in Figure 9-left of the main submission. We observe that our dAAM is significantly more compact than the sparse AAM, since for any given number of components, it manages to explain a larger portion of the corresponding total variance of the training set. 
-
-
-\begin{figure}[!b]
+\begin{figure}[!t]
     \centering
-%    \begin{subfigure}[b]{0.43\textwidth}
-%            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/var_ratio}
-%        %\caption{dAAMs vs AAMs Variance Ratio}
-%    \end{subfigure}
-    \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/cumu_var_ratio}
-        %\caption{dAAMs vs AAMs Cumulative Variance Ratio}
-    \end{subfigure}
+    \includegraphics[width=\columnwidth]{Suplementory_Meterial/Model_Analysis/cumu_var_ratio}
     \caption{Compactness plots of dAAM (green) and sparse AAM (blue) models for faces. Portion of the corresponding total variance explained as a function of the number of retained principal components.}
     \label{fig:compact}
 \end{figure}
 
 \subsection{Dense Shape Reconstruction Ability}
 
-Figure \ref{fig:rc_face} evaluates the dense shape reconstruction ability of the proposed dAAMs and compares it with that of standard sparse AAMs. In more detail, we use shapes with dense 
-ground-truth annotations and we use both AAMs and dAAMs to reconstruct them, by projecting on the corresponding model subspace. In the case of AAMs, which only contain a sparse shape model, we densify it using a piecewise affine transformation, which is typically used in texture warping textures using this type of models. We observe that dAAMs significantly outperform classic AAMs, in terms of dense shape reconstruction accuracy.
-
-\begin{figure}[!b]
+\begin{figure}[!t]
     \centering
     % \vspace*{-0.1in}
-    \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/sr_ear}
+    \begin{subfigure}[b]{\columnwidth}
+            \includegraphics[width=\textwidth,trim={0 0 0 25pt},clip]{Suplementory_Meterial/Model_Analysis/sr_ear}
         %\caption{dAAMs dense shape reconstruction}
     \end{subfigure}
     \\
-    \begin{subfigure}[b]{0.43\textwidth}
-            \includegraphics[width=\textwidth]{Suplementory_Meterial/Model_Analysis/sr_face}
+    \begin{subfigure}[b]{\columnwidth}
+            \includegraphics[width=\textwidth,trim={0 0 0 25pt},clip]{Suplementory_Meterial/Model_Analysis/sr_face}
         %\caption{AAMs dense shape reconstruction}
     \end{subfigure}
     \caption{Dense shape reconstruction errors for ears (top) and faces (bottom), using AAMs (red) and dAAMs (blue). The average normalized dense point-to-point distance error is plotted as a function of the number of principal components of the model.}
     \label{fig:rc_face}
 \end{figure}
 
+Figure \ref{fig:rc_face} evaluates the dense shape reconstruction ability of the proposed dAAMs and compares it with that of standard sparse AAMs. Specifically, we use shapes with dense ground-truth annotations and reconstruct them with both AAMs and dAAMs, by projecting on the corresponding model subspace. In the case of AAMs, which only contain a sparse shape model, we densify it using a piecewise affine transformation, which is typically for texture warping of these models. We observe that dAAMs significantly outperform classic AAMs, in terms of dense shape reconstruction accuracy.
 
-
-
-
-\subsection{Dense Fitting Visualizations}
-\label{sec:daam_fittingresults}
-
-
-In this section,
-we visualize some characteristic examples of fitting
-dense Active Appearance Models that were built using the proposed framework.
-These results are characteristic examples that come from the quantitative evaluations and comparisons reported in Section 4.1 (``Non-rigid object alignment in-the-wild'') of the main submission. Figure \ref{fig:fr} shows dAAM fitting results using a grid visualisation, for both faces and ears. We observe that the proposed method successfully captures the shape deformations of these object classes and provides a detailed shape estimation for a variety of input images.
-
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.5\textwidth]{Suplementory_Meterial/Fittings/fittings}
-\caption{Examples of fitting
-dAAMs that are constructed with the proposed pipeline. Results of dense fitting on images of
- ears (first two rows) and faces (last two rows). A grid visualisation is used.}
-\label{fig:fr}
-\end{figure}
-
-
-
-
-\section{Patch-based Active Appearance Modeling}
-\label{sec:paam}
-
-In this section, we present additional visualizations and evaluations for the patch-based Active Appearance Model (PAAM) of arms that was constructed using the proposed framework.
-
-\subsection{Subsampling of the Outline from Dense Correspondences}
-\label{sec:sparsesample}
-
-\begin{figure}[!b]
-\centering
-\newcommand{\ofh}{0.24\columnwidth}
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean.png}
-    \hfill
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-0.png}
-    \hfill
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-1.png}
-    \hfill
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-2.png}
-    \hfill
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-3.png}
-    \hfill
-    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-4.png}
-\caption{Examples of sparse subsampling from dense shapes of arms. The dense correspondences (visualized via a deforming grid) are established using our shape flow estimation. The sparse landmarks (red dots) on the object outline are manually annotated only on the reference shape (left most image). In all other 5 example shapes, these landmarks have been automatically ``propagated'' using the established dense correspondences.}
-\label{fig:sparsesample}
-\end{figure}
-
-As mentioned in the main submission (Section 3 - Step 4), in order to train a PAAM, we subsample the  densified training shapes to only consider points on the object outline. 
-Some examples of this procedure are depicted in Figure~\ref{fig:sparsesample}. 
-We manually annotate sparse outline points only on the reference shape. Then all other training shapes are subsampled automatically exploiting the dense correspondences that are established with our shape flow estimation. We observe that the automatic sub-sampling seems plausible, which is attributed to the accurate estimations of dense correspondences.
-
-
-\subsection{Principal Components}
-\label{sec:paam_sm}
-
-
-    
-
-Figure~\ref{fig:paam_sm} shows the mean shape and the first 4 principal components of shape variation of our PAAM for arms \footnote{Note that we do not visualize the appearance variation, since this is built using SIFT features and the corresponding 36-channel feature space cannot be visualized in an intuitive way.}. We observe that the shape variations captured by the model are plausible and seem to produce valid shapes of human arms.
-
-\begin{figure}[!b]
-\centering
-\includegraphics[width=\columnwidth]{Suplementory_Meterial/HandSMPAAM/handsmpaam}
-\caption{Principal components of our patch-based AAM for human arms.  The mean (left most column) as well as the first four principal components are visualised. $\pm 3$ times the variance of the corresponding component is used in each case.}
-\label{fig:paam_sm}
-\end{figure}
-
-
-
-
-
-\subsection{Fitting Results}
-\label{sec:paam_fittingresults}
-
-
-Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms datasets including MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. All fittings are initialised using same method as mention in experiment 4.2 in main paper.
 
 
 \begin{figure*}[!t]
@@ -284,11 +192,51 @@ Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced 
 \end{figure*}
 
 
-In addition table~\ref{tab:hand_benchmark} presents statistics results that refers to experiment 4.2 in main paper for additional information. Column $\leq 6pt$ reports the percentage of fittings that having errors, point-to-point distance on normalised images, less than 6 pixels (same measurement used in \cite{pfister2015flowing}). This shows we have notable improvement on estimating wrists and comparable results on estimating elbow.
+\subsection{Dense Fitting Visualizations}
+\label{sec:daam_fittingresults}
 
 
-\begin{table}[t!]
-    \small
+In this section, we visualise some characteristic examples of fitting
+dAAMs that were built using the proposed framework. These results are characteristic examples that come from the quantitative evaluations reported in Section 4.1 (``Non-rigid object alignment in-the-wild'') of the main paper. Figure \ref{fig:fr} shows dAAM fitting results using a grid visualisation, for both faces and ears. We observe that the proposed method successfully captures the shape deformations of these object classes and provides a detailed shape estimation for a variety of input images.
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.5\textwidth]{Suplementory_Meterial/Fittings/fittings}
+\caption{Examples of fitting
+dAAMs that are constructed with the proposed pipeline. Results of dense fitting on images of
+ ears (first two rows) and faces (last two rows). A grid visualisation is used.}
+\label{fig:fr}
+\end{figure}
+
+
+\section{Patch-based Active Appearance Models}
+\label{sec:paam}
+
+In this section, we present additional visualisations and evaluations for the patch-based Active Appearance Model (PAAM) of arms that was constructed using the proposed framework.
+
+\subsection{Subsampling of the Outline from Dense Correspondences}
+\label{sec:sparsesample}
+
+\begin{figure}[!t]
+\centering
+\newcommand{\ofh}{0.24\columnwidth}
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-0.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-1.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-2.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-3.png}
+    \hfill
+    \includegraphics[height=\ofh]{Suplementory_Meterial/SparseSamples/mean-4.png}
+\caption{Examples of sparse subsampling from dense shapes of arms. The dense correspondences (visualized via a deforming grid) are established using our shape flow estimation. The sparse landmarks (red dots) on the object outline are manually annotated only on the reference shape (left most image). In all other 5 example shapes, these landmarks have been automatically ``propagated'' using the established dense correspondences.}
+\label{fig:sparsesample}
+\end{figure}
+
+\begin{table*}[t!]
     \centering
     \begin{tabular}{|l|c|c|c||c|c|c|}
         \hline
@@ -308,7 +256,39 @@ In addition table~\ref{tab:hand_benchmark} presents statistics results that refe
     \end{tabular}
     \caption{Fitting statistics on BBC Pose database for experiment 4.2 in main paper.}
     \label{tab:hand_benchmark}
-\end{table}
+\end{table*}
+
+As mentioned in the main paper (Section 3 - Step 4), in order to train a PAAM, we subsample the densified training shapes to only consider points on the object's outline. Some examples of this procedure are depicted in Figure~\ref{fig:sparsesample}. We manually annotate sparse outline points only on the reference shape. Then all other training shapes are subsampled automatically exploiting the dense correspondences that are established with our shape flow estimation. We observe that the automatic subsampling seems plausible, which is attributed to the accurate estimations of dense correspondences.
+
+
+
+\subsection{Principal Components}
+\label{sec:paam_sm}
+
+
+
+Figure~\ref{fig:paam_sm} shows the mean shape and the first 4 principal shape components of our PAAM for arms\footnote{Note that we do not visualise the appearance variation, since this is built using SIFT features and the corresponding 36-channel feature space cannot be visualised in an intuitive way.}. We observe that the shape variations captured by the model are plausible and seem to produce valid shapes of human arms.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{Suplementory_Meterial/HandSMPAAM/handsmpaam}
+\caption{Principal components of our patch-based AAM for human arms.  The mean (left most column) as well as the first four principal components are visualised. $\pm 3$ times the variance of the corresponding component is used in each case.}
+\label{fig:paam_sm}
+\end{figure}
+
+
+
+
+\subsection{Fitting Results}
+\label{sec:paam_fittingresults}
+
+
+Figure~\ref{fig:paam_fittingresults} demonstrates more fitting results produced by fitting patch-base AAM on arms using MPII~\cite{andriluka14cvpr}, Fashion Pose~\cite{dantone2013human}, FLIC~\cite{sapp2013modec} and BBC Pose~\cite{pfister2015flowing} databases. All fittings are initialised using the same method as mentioned in section 4.2 of the main paper.
+
+
+In addition table~\ref{tab:hand_benchmark} reports statistical measures that provide additional information to section 4.2 of the main paper. Column $\leq 6pt$ reports the percentage of fittings that achieved a point-to-point normalised error less than 6 pixels (same measure used in \cite{pfister2015flowing}). This shows that we have notable improvement on estimating wrists and comparable results on estimating the elbow.
+
+
 
 
 
