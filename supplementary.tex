@@ -1,6 +1,6 @@
 \input{contents/header}
 
-% \iccvfinalcopy % *** Uncomment this line for the final submission
+\cvprfinalcopy % *** Uncomment this line for the final submission
 
 \input{cvpr_setting}
 
@@ -23,11 +23,6 @@
 %%%%%%%%% Appendix
 \section*{Introduction}
 In this supplementary material, we provide additional algorithmic details for our shape flow estimation, as well as additional visualisations and evaluations for the dense and patch-based AAMs that were constructed using the proposed framework.
-
-%experimental evaluations for constructing both Dense AAMs and Patch-based AAMs using the proposed pipeline.
-%For \textbf{Dense AAM}, We present more detailed algorithms explanation and intrinsic property analysis of Dense AAMs. In section~\ref{sec:cost_function},  minimisation of the energy function are described in more details. In Section \ref{sec:daam_fittingresults}, we present visualisations of in-the-wild model fitting  for faces and ears, comparing classic AAMs and the proposed dense AAMs. In Section \ref{sec:modelanalysis}, we provide evaluations and comparisons of dAAMs, in terms of model compactness, warping quality and reconstruction accuracy.
-%For \textbf{Patch-based AAM}, we described how sparse landmark points are sparsely sampled from dense reference shape and mapped to rest shapes according to dense correspondences in section~\ref{sec:sparsesample}. A visualisation for Patch-based AAM shape model is presented in section~\ref{sec:paam_sm}. Also more visualisation of fitting results are shown in section~\ref{sec:paam_fittingresults}.
-
 
 
 \appendix
@@ -307,61 +302,3 @@ In addition table~\ref{tab:hand_benchmark} reports statistical measures that pro
 
 
 
-
-
-
-% \subsection{Appearance Reconstruction}
-% \label{sec:reconstruct}
-
-% \begin{figure}[!b]
-%     \centering
-%     %\vspace*{-0.2in}
-%     \includegraphics[width=0.5\textwidth]{Suplementory_Meterial/Fig_Draw/draw}
-%     \caption{Synthesizing face images from caricature sketches. First column: caricature sketches. Second column: arbitrary chosen face images. Third and last column: sketch-based warping of images based on AAMs (third column) and dAAMs (last column).}
-%     \label{fig:draw}
-% \end{figure}
-
-% In this qualitative experiment, we show how the proposed pipeline can be used to generate novel modified instances of an object, e.g. caricatures. To be specific, firstly we manually craft a set of hand-drawn cartoon-like shape sketches. We then apply shape flow to align them with the reference frame. In this way, we establish dense correspondences of landmarks. Afterwards, we perform shape reconstruction using both AAMs and dAAMs. Finally, we warp the appearance from arbitrarily chosen faces on the reconstructed shape using either piecewise affine warp (in the case of AAMs) or shape flow (in the case of dAAMs). The corresponding results are shown in figure \ref{fig:draw}. We see that AAMs introduce more severe artifacts, especially on the areas of mouth and eyes, where nuanced information is missing or models are overly deformed. In contrast, dAAMs yield a significantly more plausible result.
-
-
-
-% \section{Segmentation using Dense AAM}
-% \label{sec:segmentation}
-
-% In this section, we present experiments of utilising our dense AAM for object segmentation. Two object classes, bottles and human bodies, are considered. For human bodies, we use images along with ground truth segmentation from Space-Time Actions dataset \footnote{\label{sta} \url{http://www.wisdom.weizmann.ac.il/~vision/SpaceTimeActions.html}}, which includes sequences with several human actions. We use ``jumping'' and ``sliding'' actions. As far as bottles are concerned, we use 500 high-resolution images that we collected and annotated using a newly-defined 50 point annotation scheme, as well as the curve annotations proposed in this paper. We randomly split these images into two disjoint sets of training (400) and testing (100) images. Bottle models were built using 400 training images while body models are built in terms of human actions (e.g. jumping), each having approximately 200 training images and 50 test images.
-
-% \begin{figure}[!t]
-%     \centering
-%     \begin{subfigure}[b]{0.15\textwidth}
-%             \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/ear}
-%         %\caption{Ear Initial Bounding Box}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%             \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/bottle}
-%         %\caption{Bottle Initial Bounding Box}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%             \includegraphics[height=\textwidth]{Suplementory_Meterial/Segmentation_Measure/body}
-%         %\caption{Body Initial Bounding Box}
-%     \end{subfigure}
-%     \caption{Examples of fitting initialisations used for the segmentation experiment. These are created by random perturbation of the ground-truth bounding box.}
-%     \label{fig:seg_init}
-% \end{figure}
-
-% Fitting dAAMs on test images yields dense landmarks that can be used to perform segmentation. In a real-world scenario, a simple object detector would be required to be applied prior to our pipeline to initialise the fitting. However, as a simple evaluation, we initialise the fitting by randomly perturbing the ground-truth bounding box with certain variance to simulate an object detector with implicit detection, see e.g.~Figure \ref{fig:seg_init}. Table  \ref{tab:seg_result} reports the segmentation precision, in case of fitting bottles and human bodies by adopting the proposed dAAMs pipeline.
-
-% \begin{table}[!h]
-% \small
-% \centering
-% \begin{tabular}{|l|c|c|c|}
-% \hline
-% \emph{Object}   & \emph{mean} & \emph{std} & \emph{median}\\
-% \hline\hline
-% Bottles         & 0.8125      & 0.1460     & 0.8414\\
-% Action - Jump   & 0.6102      & 0.0198     & 0.6099\\
-% Action - Slide  & 0.6444      & 0.0500     & 0.6501\\
-% \hline
-% \end{tabular}
-% \caption{Segmentation precision, in case of fitting bottles and human bodies by adopting the proposed dAAMs pipeline. The mean, standard deviation and median of the precision error are provided.}
-% \label{tab:seg_result}
-% \end{table}
