@@ -1,12 +1,12 @@
 
-We evaluate the performance of the proposed methodology for the task of human body pose correspondence estimation, as well as non-rigid alignment ``in-the-wild''. For further experimental results, please refer to the supplementary material.
+We evaluate the performance of the proposed methodology for the task of human body pose correspondence estimation, as well as non-rigid alignment ``in-the-wild''. For further experimental results, please refer to the supplementary material. Note that all steps of the proposed pipeline were implemented using the Menpo Project~\cite{menpo14}.
 
 %Results of quantitative and qualitative evaluations are reported.
 
 \begin{figure}[t!]
     \centering
     \includegraphics[width=\columnwidth]{resources/Fig_Variance/final}
-    \caption{Example of human pose annotation for left arm among 4 annotators. The large variance shows the difficulties of having consistent landmarks. Figure best viewed by zooming in.}
+    \caption{Example of human pose annotation for left arm among 4 annotators. The large variance highlights the difficulty of obtaining consistent landmarks.}
     \label{fig:variance}
 \end{figure}
 
@@ -44,7 +44,7 @@ We evaluate the performance of the proposed methodology for the task of human bo
     \includegraphics[height=\fh]{resources/Fixing/fix_17}
     \hfill
     \includegraphics[height=\fh]{resources/Fixing/fix_18}
-    \caption{Demonstration of annotation correction using our method for experiment \ref{exp:qualitative}. \emph{Red} dots refer to officially provided landmarks, and \emph{green} dots are corrected position.}
+    \caption{Demonstration of annotation correction using our method for the experiment of Section \ref{exp:qualitative}. \emph{Red} dots refer to officially provided landmarks, and \emph{green} dots are corrected position.}
     \label{fig:qualitative}
 \end{figure*}
 
@@ -96,54 +96,58 @@ We evaluate the performance of the proposed methodology for the task of human bo
     \includegraphics[height=\ofh]{resources/Fittings/39.eps}
     \caption{Demonstration of outline fitting of patch-based AAM on arms.}
     \label{fig:outline_fitting}
+    \vspace{-5pt}
 \end{figure*}
 
 
 
 
-\subsection{Non-rigid Object Alignment In-the-wild}
+\subsection{Non-rigid Object Alignment In-the-Wild}
 \label{exp:daam_benchmark}
-Herein, we compare the fitting accuracy of the dAAMs that are trained with our proposed framework with holistic sparse AAMs~\cite{Cootes2001,Matthews2004}. We consider two object classes that demonstrate rich texture: face and ear.
+Herein, we compare the fitting accuracy of the dAAMs that are trained with our proposed framework with holistic sparse AAMs~\cite{Cootes2001,Matthews2004,antonakos2015feature}. We consider two object classes that demonstrate rich texture: face and ear.
 
-\noindent\textbf{Databases \& Error Metrics} In the case of face, we build both models using the 811 training images of the Labelled Faces Parts in-the-Wild (LFPW) \cite{belhumeur2013localizing}. Sparse AAMs were built from the 68 points annotations provided by~\cite{sagonas_iccv_300w_2013}. Our dAAMs were built as described in Step~\ref{sec:step4}. In both cases we build the appearance models using pixel intensities. The results are reported on the 224 images of the LFPW testset. The fitting error is evaluated as the point-to-point distance normalised by the face's size.
+\noindent\textbf{Databases \& Error Metrics} In the case of face, we trained both models using the 811 training images of the Labelled Faces Parts in-the-Wild (LFPW)~\cite{belhumeur2013localizing}. Sparse AAMs were built from the 68 points annotations provided by~\cite{sagonas_iccv_300w_2013,sagonas2016faces}. Our dAAMs were built as described in Step~\ref{sec:step4}. In both cases, the appearance is represented using pixel intensities. The results are reported on the 224 images of the LFPW testset. The fitting error is evaluated as the point-to-point distance normalised by the face's size, as proposed in~\cite{Zhu2012}.
 
-In the case of the ear, given the lack of publicly available annotated databases, we collected 605 high resolution images from the internet, that were captured under unconstrained conditions. The images were manually annotated with respect to a 55 point sparse annotation mark-up, as well as the curve annotations proposed in this paper. Examples of these two type of ear annotations are shown in Figure \ref{fig:intro}. We randomly split the database into two disjoint sets of training (500) and testing (105) images. The training and evaluation of the two models is done in the same way as in the face's case.
+In the case of human ear, given the lack of publicly available annotated databases, we collected 605 high resolution images captured under unconstrained conditions from online search engines. The images were manually annotated with respect to 55 sparse landmarks, as well as the curve annotations proposed in this paper. Examples of these two types of annotations are shown in Figure~\ref{fig:intro}. We randomly split the database into two disjoint sets of training (500) and testing (105) images. The training and evaluation of the two models is done in the same way as in the case of face.
 
 \begin{figure}[b!]
+    \vspace{-5pt}
     \centering
     \includegraphics[width=0.6\columnwidth]{resources/DAAMBenchmark/legend}
     \\
     \includegraphics[width=0.48\columnwidth]{resources/DAAMBenchmark/face}
     \includegraphics[width=0.48\columnwidth]{resources/DAAMBenchmark/ear}
-    \caption{CEDs of faces and ears fitting performance for experiment \ref{exp:daam_benchmark}}
+    \caption{CEDs of faces and ears fitting performance for the experiment of Section \ref{exp:daam_benchmark}.}
     \label{fig:daam_benchmark}
 \end{figure}
 
-\noindent\textbf{Results} We report the results in Figure \ref{fig:daam_benchmark} using Cumulative Error Distribution (CED) curves. By visually inspecting the results, we determined that the fitting is becomes inaccurate for errors greater than 0.1 and 0.06 for the ear and face, respectively. By inspecting the error curves, it can be observed that dAAMs marginally outperform sparse AAMs using pixels intensities as features. Therefore, the proposed pipeline is capable of dealing with the complex structure of non-rigid shapes and learn dAAMs from simple curve line annotations that can compete and even surpass the commonly-used sparse AAMs.
+\noindent\textbf{Results} We report the results in Figure~\ref{fig:daam_benchmark} using Cumulative Error Distribution (CED) curves. By visual inspection of the results, we determined that the fitting is adequately accurate for errors less than 0.1 and 0.06 for the ear and face, respectively. The results indicate that dAAMs marginally outperform sparse AAMs. Therefore, the proposed pipeline is capable of dealing with the complex structure of non-rigid shapes and train dAAMs from simple curve line annotations which can compete and even outperform the commonly-used sparse AAMs trained on carefully annotated images.
 
 
 \subsection{Arm Pose Estimation}
 \label{exp:benchmark}
-
-In this experiment, we aim to compare the performance of a deformable model for the outline of the arm that is built on our proposed outline sparse annotation scheme, against the standard skeleton joints scheme that is commonly employed in literature. For this purpose, we employ the patch-based AAM as described in Step~\ref{sec:step4} and train two different models, one that corresponds to the outline of the arm and one on the skeleton of the hand.  Additionally, we compare are methodology with the current state-of-the-art techniques on human arm pose estimation in-the-wild.
+In this experiment, we aim to compare the effect of training a deformable model of human arm using: (i)~our proposed outline sparse landmarks, and (ii)~the standard skeleton joints annotations that are commonly employed in literature. For this purpose, we employ the patch-based AAM as described in Step~\ref{sec:step4}. Additionally, we compare our methodology with the current state-of-the-art.
 
 
 \begin{figure}[b!]
+    \vspace{-5pt}
     \centering
     \includegraphics[width=\columnwidth]{resources/HandBenchmark/legend}
     \\
     \includegraphics[width=0.48\columnwidth]{resources/HandBenchmark/wrist}
     \includegraphics[width=0.48\columnwidth]{resources/HandBenchmark/elbow}
-    \caption{CEDs over skeleton landmarks on BBC Pose database for experiment \ref{exp:benchmark}}
+    \caption{CEDs over skeleton landmarks on BBC Pose database for the experiment of Section  \ref{exp:benchmark}.}
     \label{fig:hand_benchmark}
 \end{figure}
 
 
-\noindent\textbf{Dataset \& Error Metric} We opted to report quantitative results on the BBC Pose\cite{pfister2015flowing} database, which contains the most consistent skeleton annotations among all the existing ones. The training of the outline patch-based AAM was performed after obtaining the outline annotations using our proposed framework. To train the part-based AAM (29 landmarks in the boundary) we used 891 training images from a combination of datasets, including H3D \cite{PoseletsICCV09}, Microsoft COCO \cite{lin2014microsoft}, MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human}, FLIC \cite{sapp2013modec} and BBC Poses \cite{pfister2015flowing}. SIFT \cite{PoseletsICCV09} feature is used from image representation for our model. Model fitting on BBC Pose is initialised based on an in house deep convolutional neural network.
+\noindent\textbf{Dataset \& Error Metric} We opted to report quantitative results on the BBC Pose database~\cite{pfister2015flowing}, which provides the most consistent and accurate joints annotations compared to the rest of existing databases. The training of the outline patch-based AAM was performed after obtaining 29 outline landmarks using our proposed framework. We used 891 training images from a combination of datasets, including H3D~\cite{PoseletsICCV09}, Microsoft COCO~\cite{lin2014microsoft}, MPII~\cite{andriluka14cvpr}, Fashion Pose~\cite{dantone2013human}, FLIC~\cite{sapp2013modec} and BBC Pose~\cite{pfister2015flowing}. SIFT features~\cite{PoseletsICCV09} are adopted for the image representation in our model. The fitting procedure on the BBC Pose database is initialised using a simplistic in-house deep convolutional neural network.
 
-In order to compare with current state-of-the-art human pose estimation on BBC Pose, we used the same error metric as BBC Pose, which normalises testing images to have height of 256 pixels. Performance measure of experiments in this paper are plot with Cumulative Error Distribution (CED) curve, where graph shows accuracy against distance from ground truth in pixels on normalised images. Results for this experiment are reported over 1000 testing images BBC Pose Provided, which human upper-body pose are landmark with 7 points on skeleton. For our model, joints are projected from the dense correspondence generated from our proposed method. Results (Figure \ref{fig:hand_benchmark}, our method is the outline PAAM) are reported comparing with the state-of-the-art which includes Buehler \cite{buehler2011upper}, Charles14 \cite{charles2014upper}, Charles13 \cite{charles2013domain}, Pfister14 \cite{pfister2015deep}, Ramanan \cite{yang2013articulated} and Pfister15 \cite{pfister2015flowing}. As can seen our outline part-based AAM model, even though not trained for locating the wrist and elbow, outperforms the state-of-the-art for this task. In particular, our method improves performance of current best method \cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation.
+In order to compare with current state-of-the-art on BBC Pose, we used the same error metric as the one in~\cite{pfister2015flowing}, which normalises testing images in order to have a height of 256 pixels. Once again, the performance is visualised using CED curves. The results for this experiment are reported on 1000 testing images from BBC Pose, which utilises 7 skeleton landmarks to annotate the human upper-body pose. Note that in the case of our model, the final joints locations required for evaluation are retrieved from the dense correspondence acquired with our proposed method. On the contrary, the rest of the methods are trained on this 7-points mark-up, thus directly return their estimated locations.
 
-In the same experiment we investigated the disadvantages of using skeleton annotation. We build patch-based AAM on the skeleton of the arm with same training data. As it can be seen from the  CED curves of \ref{fig:hand_benchmark} the skeleton based deformable model (called joint PAAM) has significant lower performance than the our outline model (Outline PAAM),
+\noindent\textbf{Results} Figure~\ref{fig:hand_benchmark} reports the results of our model trained on the outline landmarks (Outline PAAM), as well as the current state-of-the-art techniques which include: Buehler~\cite{buehler2011upper}, Charles14~\cite{charles2014upper}, Charles13~\cite{charles2013domain}, Pfister14~\cite{pfister2015deep}, Ramanan~\cite{yang2013articulated} and Pfister15~\cite{pfister2015flowing}. As can be seen, our outline part-based AAM model outperforms the state-of-the-art for this task, even though it is not trained directly on the wrist and elbow points, thus it is not tailored for locating them. In particular, our model outperforms the currently best method~\cite{pfister2015flowing} by a notable amount (9\% with error less than 6pt) on wrist, as well as marginal improvement on elbow estimation. Figure~\ref{fig:outline_fitting} shows some indicative qualitative fitting results.
+
+In the same experiment we prove that it is more advantageous to train a deformable model using the outline landmarks rather than the skeleton points. This is done by building a patch-based AAM on the same training data and with identical settings using both annotation schemes. As it can be seen from the  CED curves of Figure~\ref{fig:hand_benchmark}, our model trained on outline landmarks (Outline PAAM) notable outperforms the skeleton-based model for both wrist and elbow. We believe that this is a remarkable result, which indicates that out proposed outline mark-up can lead to a significant improvement of current state-of-the-art techniques.
 
 
 % \begin{figure*}[!t]
@@ -201,10 +205,9 @@ In the same experiment we investigated the disadvantages of using skeleton annot
 
 \subsection{Annotation Correction}
 \label{exp:qualitative}
+The final experiment demonstrates that it is feasible to use the proposed arm model in order to correct the annotations provided by current datasets. As mentioned above there are inconsistencies in the annotations of MPII~\cite{andriluka14cvpr}, Fashion Pose~\cite{dantone2013human} and FLIC~\cite{sapp2013modec}. Due to the large variance in arm pose, it is difficult even for trained annotators to obtain consistent annotations between them. As proof of concept, Figure~\ref{fig:variance} reports the standard deviation observed between the annotations of 4 trained humans that were requested to annotate 120 images of left arms from Fashion Pose~\cite{dantone2013human} with respect to the shoulder, elbow and wrist.
 
-The final experiment demonstrates that is feasible to use the proposed arm model in order to correct the annotations provided by the current datasets. As mentioned above there are inconsistencies in the joint annotations of MPII \cite{andriluka14cvpr}, Fashion Pose \cite{dantone2013human} and FLIC \cite{sapp2013modec}. Three well trained annotators are used to annotate left arm using 120 test images from Fashion Pose \cite{dantone2013human} dataset. Figure \ref{fig:variance} presents statistical results calculated using data annotated and officially provided with normalisation based on length of arms. Exemplar annotation visualisation also shows significant inconsistency of manual annotation on joints.
-
-Figure \ref{exp:qualitative} presents corrections of joint annotations using the proposed patch-based SDM. \emph{Red} dots shows ``ground truth" annotations while \emph{green} dots shows landmarks after correction using our methodology. There is no doubt that points after correction show more consistency among images. Images are cropped to hand only for better visualisation. Upon acceptance we will provide the corrected annotations in all the aforementioned databases.
+By applying our outline patch-based AAM on the aforementioned databases, we managed to greatly correct the currently available annotations of the arm. Figure~\ref{fig:qualitative} shows indicative examples of the corrected landmarks. There is no doubt that points after correction demonstrate more consistency among images. We make the corrected annotations publicly available\textsuperscript{\ref{foot:annotations}}.
 
 
 
