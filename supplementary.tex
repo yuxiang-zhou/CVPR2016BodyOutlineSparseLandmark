@@ -30,7 +30,7 @@ In this supplementary material, we provide additional algorithmic details for ou
 \label{sec:cost_function}
 
 
-As mentioned in the main submission (Section 3, Step 3), we propose to estimate the shape flow by minimising the following energy:
+As mentioned in the main paper (Section 3, Step 3), we propose to estimate the shape flow by minimising the following energy:
 \vspace{-5pt}
 \begin{align}
 E_{sf} & =\alpha
@@ -43,7 +43,7 @@ E_{sf} & =\alpha
 We minimise this energy jointly with respect to $\bm{u}_n(\bx)$ and $\bm{v}_i(\bx)$, which correspond to the
 two sets of unknown shape flows.
 We implement this minimisation based on the optimisation algorithm described in \cite{Garg:2013hu} and the relevant publicly available code \footnote{https://bitbucket.org/troussos/mfsf/downloads}.
-However, we modify this algorithm so that, instead of initialising the coarse-to-fine and warping iterations with a zero flow, we use Thin Plate Splines (TPS) \cite{Bookstein1989} interpolation of the initial correspondence vectors described in Section 3, Step 2 of the main submission.
+However, we modify this algorithm so that, instead of initialising the coarse-to-fine and warping iterations with a zero flow, we use Thin Plate Splines (TPS) \cite{Bookstein1989} interpolation of the initial correspondence vectors described in Section 3, Step 2 of the main paper.
 This yields a significantly better initial location of the highly-nonconvex objective function and improves the computational efficiency, since much less coarse-to-fine pyramids are needed.
 
 Note that in every coarse-to-fine and warping iteration, we use an initialisation that comes from the previous iteration. We approximate the data term \eqref{eq:costfunc} by linearising the SVS images $\bm{d}(\bx;n)$ around the initialisation. After that, the energy becomes convex and we optimise it by employing alternating optimisation with respect to $\bm{v}_i(\bx)$ and $\bm{u}_n(\bx)$. The minimisation with respect to $\bm{v}_i(\bx)$ is decoupled for every coefficient $i$ and corresponds to Rudin-Osher-Fatemi Total Variation denoising~\cite{rudin92}, which we solve efficiently by applying the first order primal-dual algorithm of~\cite{Chambolle:Pock:JMIV2011}. The minimisation with respect to $\bm{u}_n(x)$ is decoupled for every pixel $\bx$ and every shape index $i$. This minimisation is also implemented by applying the efficient primal-dual algorithm of~\cite{Chambolle:Pock:JMIV2011}.
@@ -62,13 +62,13 @@ In this section, we report additional qualitative and quantitative evaluations f
 Figure~\ref{fig:pcamodel} visualises the first five shape and appearance principal components of ear and face dAAMs. We observe that in both ear and face cases, the variation of both shape and appearance captured by the model seem plausible.
 
 
-Figure~\ref{fig:compact} pliots the variance ration of the face dAAM, which provides an indication of the compactness of the model. The compactness is compared with the one of a standard sparse AAM built on the same data. Note that these are the two shape models that are compared in Figure 9-left of the main paper. We observe that our dAAM is significantly more compact than the sparse AAM, since for any given number of components, it manages to explain a larger portion of the corresponding total variance of the training set. 
+Figure~\ref{fig:compact} plots the variance ration of the face dAAM, which provides an indication of the compactness of the model. The compactness is compared with the one of a standard sparse AAM built on the same data. Note that these are the two shape models that are compared in Figure 9-left of the main paper. We observe that our dAAM is significantly more compact than the sparse AAM, since for any given number of components, it manages to explain a larger portion of the corresponding total variance of the training set. 
 
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\columnwidth]{Suplementory_Meterial/Model_Analysis/cumu_var_ratio}
-    \caption{Compactness plots of dAAM (green) and sparse AAM (blue) models for faces. Portion of the corresponding total variance explained as a function of the number of retained principal components.}
+    \caption{Compactness plots of dAAM (blue) and sparse AAM (red) models for faces. Portion of the corresponding total variance explained as a function of the number of retained principal components.}
     \label{fig:compact}
 \end{figure}
 
@@ -182,7 +182,7 @@ Figure \ref{fig:rc_face} evaluates the dense shape reconstruction ability of the
     \includegraphics[height=\ofh]{Suplementory_Meterial/ExFit/0043.eps}
     \hfill
     \includegraphics[height=\ofh]{Suplementory_Meterial/ExFit/0044.eps}
-    \caption{Demonstration of outline fitting of patch-based AAM on arms. Images are cropped to arms only for better visualisation.}
+    \caption{Demonstration of outline fitting of patch-based AAM on arms. Images are cropped to arms only for better visualization.}
     \label{fig:paam_fittingresults}
 \end{figure*}
 
@@ -191,7 +191,7 @@ Figure \ref{fig:rc_face} evaluates the dense shape reconstruction ability of the
 \label{sec:daam_fittingresults}
 
 
-In this section, we visualise some characteristic examples of fitting
+In this section, we visualize some characteristic examples of fitting
 dAAMs that were built using the proposed framework. These results are characteristic examples that come from the quantitative evaluations reported in Section 4.1 (``Non-rigid object alignment in-the-wild'') of the main paper. Figure \ref{fig:fr} shows dAAM fitting results using a grid visualisation, for both faces and ears. We observe that the proposed method successfully captures the shape deformations of these object classes and provides a detailed shape estimation for a variety of input images.
 
 
@@ -262,7 +262,7 @@ As mentioned in the main paper (Section 3 - Step 4), in order to train a PAAM, w
 
 
 
-Figure~\ref{fig:paam_sm} shows the mean shape and the first 4 principal shape components of our PAAM for arms\footnote{Note that we do not visualise the appearance variation, since this is built using SIFT features and the corresponding 36-channel feature space cannot be visualised in an intuitive way.}. We observe that the shape variations captured by the model are plausible and seem to produce valid shapes of human arms.
+Figure~\ref{fig:paam_sm} shows the mean shape and the first four principal shape components of our PAAM for arms\footnote{Note that we do not visualise the appearance variation, since this is built using SIFT features and the corresponding 36-channel feature space cannot be visualized in an intuitive way.}. We observe that the shape variations captured by the model are plausible and seem to produce valid shapes of human arms.
 
 \begin{figure}[!t]
 \centering
